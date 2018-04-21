@@ -25,9 +25,18 @@ public class GenericDatabaseService<T> {
 
     }
 
+    public GenericDatabaseService(DatabaseReference reference, Class<T> typeClass) {
+
+        databaseReference = reference;
+        this.typeClass = typeClass;
+
+    }
+
     public void init() {
 
-        databaseReference = FirebaseDatabase.getInstance().getReference(databaseRefName);
+        if (databaseReference == null) {
+            databaseReference = FirebaseDatabase.getInstance().getReference(databaseRefName);
+        }
         startListening();
 
     }

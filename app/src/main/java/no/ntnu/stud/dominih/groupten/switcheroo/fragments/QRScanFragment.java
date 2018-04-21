@@ -1,5 +1,6 @@
 package no.ntnu.stud.dominih.groupten.switcheroo.fragments;
 
+import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
+import no.ntnu.stud.dominih.groupten.switcheroo.GameActivity;
 import no.ntnu.stud.dominih.groupten.switcheroo.GameClientService;
 import no.ntnu.stud.dominih.groupten.switcheroo.R;
 
@@ -51,13 +53,14 @@ public class QRScanFragment extends Fragment implements QRCodeReaderView.OnQRCod
         qrCodeReaderView.setOnQRCodeReadListener(null);
         new GameClientService().joinGame(text);
 
-        GameFragment gf = new GameFragment();
-        Bundle args = new Bundle();
-        args.putString(GameFragment.KEY_GAME_ID, text);
-        args.putString(GameFragment.KEY_PLAYER_TYPE, GameFragment.PLAYER_TYPE_CLIENT);
+        Bundle extras = new Bundle();
+        extras.putString(GameActivity.KEY_GAME_ID, text);
+        extras.putString(GameActivity.KEY_PLAYER_TYPE, GameActivity.PLAYER_TYPE_CLIENT);
 
-        gf.setArguments(args);
-        doFragmentTransaction(gf);
+        Intent i = new Intent(getActivity(), GameActivity.class);
+        i.putExtras(extras);
+
+        startActivity(i);
 
     }
 

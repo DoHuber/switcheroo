@@ -8,12 +8,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.UUID;
+
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.MainMenuFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 7734;
     public static boolean cameraPermissionsGranted = false;
+    public static final String mockupUsername = UUID.randomUUID().toString();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

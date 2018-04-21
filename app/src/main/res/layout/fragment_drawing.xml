@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <no.ntnu.stud.dominih.groupten.switcheroo.DrawView
         android:id="@+id/drawing"
@@ -12,7 +11,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@android:color/transparent"></no.ntnu.stud.dominih.groupten.switcheroo.DrawView>
+        android:background="@android:color/transparent" />
 
     <Button
         android:id="@+id/clear_button"
@@ -21,7 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginStart="75dp"
-        android:text="Clear" />
+        android:text="@string/clear" />
 
     <Button
         android:id="@+id/send_button"
@@ -30,6 +29,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="59dp"
         android:layout_toEndOf="@+id/clear_button"
-        android:text="Send" />
+        android:text="@string/send" />
 
 </RelativeLayout>

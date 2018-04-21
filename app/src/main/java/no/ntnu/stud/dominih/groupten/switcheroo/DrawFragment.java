@@ -1,23 +1,15 @@
 package no.ntnu.stud.dominih.groupten.switcheroo;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 
 
-
-public class DrawFragment extends Fragment implements View.OnClickListener{
-
-
+public class DrawFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,9 +18,7 @@ public class DrawFragment extends Fragment implements View.OnClickListener{
     private DrawView drawView;
     private Button clearButton;
     private Button sendButton;
-
-
-
+    private GameActivity parent;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -40,7 +30,7 @@ public class DrawFragment extends Fragment implements View.OnClickListener{
         // Required empty public constructor
     }
 
-    public static DrawFragment getInstance(){
+    public static DrawFragment getInstance() {
         DrawFragment fragment = new DrawFragment();
         fragment.setRetainInstance(true);
         return fragment;
@@ -61,6 +51,7 @@ public class DrawFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -73,8 +64,10 @@ public class DrawFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View _view = inflater.inflate(R.layout.layout_drawing_fragment,container,false);
-        drawView =  _view.findViewById(R.id.drawing);
+        parent = (GameActivity) getActivity();
+
+        View _view = inflater.inflate(R.layout.fragment_drawing, container, false);
+        drawView = _view.findViewById(R.id.drawing);
         clearButton = _view.findViewById(R.id.clear_button);
         clearButton.setOnClickListener(this);
 
@@ -86,19 +79,18 @@ public class DrawFragment extends Fragment implements View.OnClickListener{
     }
 
 
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+
+        switch (v.getId()) {
             case R.id.clear_button:
                 drawView.clearCanvas();
                 break;
 
             case R.id.send_button:
-                //TODO implement turn image into a jpeg and send it to the database
-                byte[] jpeg = drawView.toJPEG();
-                String imgString = Base64.encodeToString(drawView.toJPEG(),Base64.NO_WRAP);
 
-                Log.e("THIS IS THE BYTE ARRAY", jpeg.toString());
-                Log.e("THIS IS THE OTHER WAY", imgString);
+                String imgString = Base64.encodeToString(drawView.toJPEG(), Base64.NO_WRAP);
+                parent.finishedDrawing(imgString);
+
                 break;
         }
 

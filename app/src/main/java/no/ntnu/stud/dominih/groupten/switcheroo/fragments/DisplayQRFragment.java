@@ -1,5 +1,6 @@
 package no.ntnu.stud.dominih.groupten.switcheroo.fragments;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import no.ntnu.stud.dominih.groupten.switcheroo.GameActivity;
 import no.ntnu.stud.dominih.groupten.switcheroo.R;
 
 public class DisplayQRFragment extends Fragment {
@@ -45,13 +47,14 @@ public class DisplayQRFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                GameFragment gf = new GameFragment();
-                Bundle args = new Bundle();
-                args.putString(GameFragment.KEY_GAME_ID, gameId);
-                args.putString(GameFragment.KEY_PLAYER_TYPE, GameFragment.PLAYER_TYPE_HOST);
+                Bundle extras = new Bundle();
+                extras.putString(GameActivity.KEY_GAME_ID, gameId);
+                extras.putString(GameActivity.KEY_PLAYER_TYPE, GameActivity.PLAYER_TYPE_HOST);
 
-                gf.setArguments(args);
-                doFragmentTransaction(gf);
+                Intent i = new Intent(getActivity(), GameActivity.class);
+                i.putExtras(extras);
+
+                startActivity(i);
 
             }
         });
