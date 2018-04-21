@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         MainMenuFragment menuFragment = new MainMenuFragment();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_fragment_container, menuFragment)
+                .replace(R.id.fragment_container, menuFragment)
                 .commit();
     }
 

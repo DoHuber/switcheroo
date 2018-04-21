@@ -8,10 +8,8 @@
         android:id="@+id/drawing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/send_button"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/txt_to_draw"
         android:background="@android:color/transparent"></no.ntnu.stud.dominih.groupten.switcheroo.DrawView>
 
     <Button
@@ -31,5 +29,13 @@
         android:layout_marginStart="59dp"
         android:layout_toEndOf="@+id/clear_button"
         android:text="Send" />
+
+    <TextView
+        android:id="@+id/txt_to_draw"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="TextView" />
 
 </RelativeLayout>
