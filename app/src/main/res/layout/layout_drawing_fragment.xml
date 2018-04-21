@@ -6,13 +6,30 @@
 
     <no.ntnu.stud.dominih.groupten.switcheroo.DrawView
         android:id="@+id/drawing"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="3dp"
-        android:background="@android:color/transparent" >
-    </no.ntnu.stud.dominih.groupten.switcheroo.DrawView>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/send_button"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"></no.ntnu.stud.dominih.groupten.switcheroo.DrawView>
+
+    <Button
+        android:id="@+id/clear_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="75dp"
+        android:text="Clear" />
+
+    <Button
+        android:id="@+id/send_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="59dp"
+        android:layout_toEndOf="@+id/clear_button"
+        android:text="Send" />
 
 </RelativeLayout>

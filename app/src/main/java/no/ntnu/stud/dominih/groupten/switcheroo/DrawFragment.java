@@ -8,17 +8,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
- * Use the {@link DrawFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class DrawFragment extends Fragment {
+
+public class DrawFragment extends Fragment implements View.OnClickListener{
 
 
 
@@ -27,6 +22,8 @@ public class DrawFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private DrawView drawView;
+    private Button clearButton;
+    private Button sendButton;
 
 
 
@@ -47,14 +44,6 @@ public class DrawFragment extends Fragment {
         return fragment;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DrawFragment.
-     */
     /*
     // TODO: Rename and change types and number of parameters
     public static DrawFragment newInstance(String param1, String param2) {
@@ -84,9 +73,29 @@ public class DrawFragment extends Fragment {
 
         View _view = inflater.inflate(R.layout.layout_drawing_fragment,container,false);
         drawView =  _view.findViewById(R.id.drawing);
+        clearButton = _view.findViewById(R.id.clear_button);
+        clearButton.setOnClickListener(this);
+
+        sendButton = _view.findViewById(R.id.send_button);
+        sendButton.setOnClickListener(this);
+
         return _view;
-        // Inflate the layout for this fragment
-        // return inflater.inflate(R.layout.layout_drawing_fragment, container, false);
+
+    }
+
+
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.clear_button:
+                drawView.clearCanvas();
+                break;
+
+            case R.id.send_button:
+                //TODO implement turn image into a jpeg and send it to the database
+                break;
+        }
+
+
     }
 
     @Override
