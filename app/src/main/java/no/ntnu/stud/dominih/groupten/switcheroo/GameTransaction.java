@@ -7,6 +7,8 @@ public class GameTransaction {
     public static final String TYPE_IMG = "image/*";
     public static final String TYPE_END = "null";
 
+    public GameTransaction() {}
+
     public GameTransaction(String recipientId, String payloadType, String payload, String nextRecipient) {
         this.recipientId = recipientId;
         this.payloadType = payloadType;

@@ -4,4 +4,5 @@
     <string name="host_game">Host game</string>
     <string name="a_qr_code">A qr code</string>
     <string name="hint_transactions">Waiting for game transactions!</string>
+    <string name="start_game">Start game</string>
 </resources>

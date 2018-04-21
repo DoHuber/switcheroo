@@ -13,6 +13,7 @@ import java.util.List;
 
 import no.ntnu.stud.dominih.groupten.switcheroo.AsyncCallback;
 import no.ntnu.stud.dominih.groupten.switcheroo.GameClientService;
+import no.ntnu.stud.dominih.groupten.switcheroo.GameHostService;
 import no.ntnu.stud.dominih.groupten.switcheroo.GameTransaction;
 import no.ntnu.stud.dominih.groupten.switcheroo.R;
 
@@ -25,6 +26,7 @@ public class GameFragment extends Fragment {
     public static final String PLAYER_TYPE_HOST = "Host";
 
     private GameClientService gameClientService;
+    private GameHostService gameHostService;
 
 
     @Nullable
@@ -44,9 +46,13 @@ public class GameFragment extends Fragment {
 
             } else {
 
-                // TODO We are host
-                // Send some transactions and shit
+                gameHostService = new GameHostService(gameId);
 
+                // Basically do an ICMP ping
+                gameHostService.sendGameTransaction(new GameTransaction("noone", GameTransaction.TYPE_TEXT, "Test hello world", "noone"));
+                gameHostService.sendGameTransaction(new GameTransaction("noone", GameTransaction.TYPE_TEXT, "Test hello world", "noone"));
+                gameHostService.sendGameTransaction(new GameTransaction("noone", GameTransaction.TYPE_TEXT, "Test hello world", "noone"));
+                gameHostService.sendGameTransaction(new GameTransaction("noone", GameTransaction.TYPE_TEXT, "Test hello world", "noone"));
             }
 
         }
