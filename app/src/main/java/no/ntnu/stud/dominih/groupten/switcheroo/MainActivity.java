@@ -1,7 +1,5 @@
 package no.ntnu.stud.dominih.groupten.switcheroo;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -23,14 +21,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    /**
+    /*
      *
      * TO IMPLEMENT THE DRAWING FRAGMENT PUT THIS IN THE ON CREATE METHOD OF THE MAIN ACTIVITY
      *
      FragmentManager myFragmentManager;
      FragmentTransaction myFragmentTransaction;
      DrawFragment myDrawFragment;
-     @Override
+      \@Override
      protected void onCreate(Bundle savedInstanceState) {
      super.onCreate(savedInstanceState);
      setContentView(R.layout.activity_main);
@@ -88,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    /**
+    /*
      <?xml version="1.0" encoding="utf-8"?>
      <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
      android:id="@+id/fragment_container"
