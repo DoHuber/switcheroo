@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
+import no.ntnu.stud.dominih.groupten.switcheroo.GameHostService;
 import no.ntnu.stud.dominih.groupten.switcheroo.MainActivity;
 import no.ntnu.stud.dominih.groupten.switcheroo.R;
 
@@ -39,7 +39,15 @@ public class MainMenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getContext(), "Not implemented yet.", Toast.LENGTH_SHORT).show();
+                GameHostService hostService = new GameHostService();
+                String id = hostService.startNewGame();
+
+                Bundle args = new Bundle();
+                args.putString(DisplayQRFragment.KEY_GAME_ID_GENFRAGMENT, id);
+                DisplayQRFragment displayFragment = new DisplayQRFragment();
+                displayFragment.setArguments(args);
+
+                doFragmentTransaction(displayFragment);
 
             }
         });
@@ -52,23 +60,28 @@ public class MainMenuFragment extends Fragment {
             public void onClick(View v) {
 
                 Log.d("MainMenuFrag", "The camera permissions currently are: " + Boolean.toString(MainActivity.cameraPermissionsGranted));
+                // TODO Add some checks for the camera permission,
+                // if there is none, shell out a plain text fragment.
 
-                FragmentManager fm = getFragmentManager();
-                if (fm != null) {
-
-                    // TODO Add some checks for the camera permission,
-                    // if there is none, shell out a plain text fragment.
-
-                    fm
-                            .beginTransaction()
-                            .replace(R.id.main_fragment_container, new QRScanFragment())
-                            .addToBackStack("")
-                            .commit();
-
-                }
+                doFragmentTransaction(new QRScanFragment());
 
             }
         });
+    }
+
+    private void doFragmentTransaction(Fragment fragment) {
+
+        FragmentManager fm = getFragmentManager();
+        if (fm != null) {
+
+            fm
+                    .beginTransaction()
+                    .replace(R.id.main_fragment_container, fragment)
+                    .addToBackStack("")
+                    .commit();
+
+        }
+
     }
 
 }

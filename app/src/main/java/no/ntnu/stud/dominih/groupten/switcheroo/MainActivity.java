@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.CAMERA},
                     CAMERA_PERMISSION_REQUEST_CODE);
 
+        } else {
+
+            gotoMainMenu();
+
         }
 
     }

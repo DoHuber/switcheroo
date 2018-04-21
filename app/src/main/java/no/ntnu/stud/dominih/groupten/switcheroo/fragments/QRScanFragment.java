@@ -9,10 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
+import no.ntnu.stud.dominih.groupten.switcheroo.GameClientService;
 import no.ntnu.stud.dominih.groupten.switcheroo.R;
 
 public class QRScanFragment extends Fragment implements QRCodeReaderView.OnQRCodeReadListener {
@@ -47,9 +47,8 @@ public class QRScanFragment extends Fragment implements QRCodeReaderView.OnQRCod
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
 
-        Toast.makeText(getContext(), text, Toast.LENGTH_LONG).show();
-
-
+        new GameClientService().joinGame(text);
 
     }
+
 }
