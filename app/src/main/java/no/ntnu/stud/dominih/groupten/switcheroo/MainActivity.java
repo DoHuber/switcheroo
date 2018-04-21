@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         myFragmentTransaction = myFragmentManager.beginTransaction();
         myDrawFragment = DrawFragment.getInstance();
         myFragmentTransaction.add(R.id.fragment_container,myDrawFragment,"draw");
-        myFragmentTransaction.commit(); 
+        myFragmentTransaction.commit();
     }
 
 

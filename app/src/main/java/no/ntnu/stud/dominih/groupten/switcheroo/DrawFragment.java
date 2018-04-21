@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,6 +94,11 @@ public class DrawFragment extends Fragment implements View.OnClickListener{
 
             case R.id.send_button:
                 //TODO implement turn image into a jpeg and send it to the database
+                byte[] jpeg = drawView.toJPEG();
+                String imgString = Base64.encodeToString(drawView.toJPEG(),Base64.NO_WRAP);
+
+                Log.e("THIS IS THE BYTE ARRAY", jpeg.toString());
+                Log.e("THIS IS THE OTHER WAY", imgString);
                 break;
         }
 

@@ -6,10 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by Wolfer on 21/04/2018.
@@ -73,7 +74,14 @@ public class DrawView extends View{
         myPath.lineTo(pointX,pointY);
     }
 
-
+    public byte[] toJPEG(){
+        ByteArrayOutputStream jpeg = new ByteArrayOutputStream();
+        Bitmap bitmap = Bitmap.createBitmap(this.getWidth(),this.getHeight(),Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        this.draw(canvas);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,jpeg);
+        return jpeg.toByteArray();
+    }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x= event.getX();
