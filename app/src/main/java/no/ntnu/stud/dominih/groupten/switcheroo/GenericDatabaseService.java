@@ -9,16 +9,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractDatabaseService<T> {
+public class GenericDatabaseService<T> {
 
     private String databaseRefName;
     private DatabaseReference databaseReference;
     private List<AsyncCallback<T>> callbacks = new ArrayList<>();
     private Class<T> typeClass;
 
-    private AbstractDatabaseService(){}
+    private GenericDatabaseService(){}
 
-    public AbstractDatabaseService(String databaseRefName, Class<T> typeClass) {
+    public GenericDatabaseService(String databaseRefName, Class<T> typeClass) {
 
         this.databaseRefName = databaseRefName;
         this.typeClass = typeClass;
@@ -61,10 +61,17 @@ public abstract class AbstractDatabaseService<T> {
 
     }
 
-    public void addChild(T newChild) {
+    /**
+     * Adds a new child to the database reference, returns the key for the inserted child
+     *
+     * @param newChild Object the new child for the database reference
+     * @return String the key to the inserted value
+     */
+    public String addChild(T newChild) {
 
         DatabaseReference childReference = databaseReference.push();
         childReference.setValue(newChild);
+        return childReference.getKey();
 
     }
 
