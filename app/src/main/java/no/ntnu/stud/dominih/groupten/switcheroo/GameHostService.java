@@ -5,13 +5,14 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class GameHostService {
 
-    // private GenericDatabaseService<String> stringDbService = new GenericDatabaseService<>("switcheroo", String.class);
     private String gameId;
 
     public GameHostService() {
 
-        // stringDbService.init();
+    }
 
+    public GameHostService(String gameId) {
+        this.gameId = gameId;
     }
 
     public String startNewGame() {
@@ -21,6 +22,15 @@ public class GameHostService {
         newGame.setValue(new Game(gameId));
 
         return gameId;
+
+    }
+
+    public void sendGameTransaction(GameTransaction transaction) {
+
+        DatabaseReference gameReference = FirebaseDatabase.getInstance().getReference("switcheroo").child(gameId);
+        DatabaseReference newLogChild = gameReference.child("log").push();
+
+        newLogChild.setValue(transaction);
 
     }
 

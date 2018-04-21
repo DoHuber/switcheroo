@@ -3,4 +3,5 @@
     <string name="join_game">Join game</string>
     <string name="host_game">Host game</string>
     <string name="a_qr_code">A qr code</string>
+    <string name="hint_transactions">Waiting for game transactions!</string>
 </resources>
