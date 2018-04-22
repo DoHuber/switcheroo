@@ -7,18 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import no.ntnu.stud.dominih.groupten.switcheroo.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TextFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TextFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class TextFragment extends Fragment {
+
+public class TextFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,20 +24,24 @@ public class TextFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private Button sendButton;
+    private EditText answerText;
+    private ImageView answerImage;
+
+
+
     private OnFragmentInteractionListener mListener;
 
     public TextFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TextFragment.
-     */
+    public static TextFragment getInstance(){
+        TextFragment textFragment = new TextFragment();
+        textFragment.setRetainInstance(true);
+        return textFragment;
+    }
+/*
     // TODO: Rename and change types and number of parameters
     public static TextFragment newInstance(String param1, String param2) {
         TextFragment fragment = new TextFragment();
@@ -51,6 +51,7 @@ public class TextFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,9 +65,19 @@ public class TextFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View textFragmentView = inflater.inflate(R.layout.fragment_text, container, false);
+        sendButton = textFragmentView.findViewById(R.id.send_button_text);
+        sendButton.setOnClickListener(this);
+        answerImage = textFragmentView.findViewById(R.id.image_view);
+        answerText = textFragmentView.findViewById(R.id.answer_text);
+
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_text, container, false);
+        return textFragmentView;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -75,6 +86,12 @@ public class TextFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        //TODO SEND IT TO THE DATABASE
+        String answer = answerText.getText().toString();
+    }
+/*
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -91,6 +108,8 @@ public class TextFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    */
 
     /**
      * This interface must be implemented by activities that contain this

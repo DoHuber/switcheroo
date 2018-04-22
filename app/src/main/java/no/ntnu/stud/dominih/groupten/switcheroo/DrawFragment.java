@@ -96,7 +96,8 @@ public class DrawFragment extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.send_button:
-                //TODO implement turn image into a jpeg and send it to the database
+
+                //TODO SEND IT TO THE DATABASE
                 byte[] jpeg = drawView.toJPEG();
                 String imgString = Base64.encodeToString(drawView.toJPEG(),Base64.NO_WRAP);
 
