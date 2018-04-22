@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.util.List;
 
+import no.ntnu.stud.dominih.groupten.switcheroo.fragments.DrawingFragment;
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.WaitingFragment;
 
 public class GameActivity extends AppCompatActivity {

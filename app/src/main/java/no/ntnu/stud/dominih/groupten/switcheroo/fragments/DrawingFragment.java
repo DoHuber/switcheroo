@@ -1,4 +1,4 @@
-package no.ntnu.stud.dominih.groupten.switcheroo;
+package no.ntnu.stud.dominih.groupten.switcheroo.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import no.ntnu.stud.dominih.groupten.switcheroo.DrawView;
+import no.ntnu.stud.dominih.groupten.switcheroo.GameActivity;
+import no.ntnu.stud.dominih.groupten.switcheroo.R;
 
 
 public class DrawingFragment extends Fragment implements View.OnClickListener {
-
 
     public static final String KEY_HAS_TEXT = "MDSFMSDFDS";
     public static final String KEY_TEXT_CAPTION = "MDFKSFMKSDFDSF";
