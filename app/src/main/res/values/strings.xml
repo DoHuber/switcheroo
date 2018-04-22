@@ -20,4 +20,8 @@
     <string name="endgame_back_main">Back to main menu</string>
     <string name="endgame_export">Export image</string>
     <string name="endgame_description">A full circle has been completed. You can continue playing, go back to the main menu, or export all texts and images as one big image to an app of your choice.</string>
+    <string name="clientend_headline">Game Over!</string>
+    <string name="clientend_description">The host has ended the game. You can either go back to the main menu directly, or export the full picture to an app of your choice.</string>
+    <string name="clientend_back_main">Back to main menu</string>
+    <string name="clientend_export">Export</string>
 </resources>

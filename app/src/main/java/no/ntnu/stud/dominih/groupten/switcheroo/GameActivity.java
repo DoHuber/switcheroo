@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import no.ntnu.stud.dominih.groupten.switcheroo.fragments.ClientEndFragment;
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.DrawingFragment;
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.EndOfGameFragment;
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.WaitingFragment;
@@ -177,9 +177,7 @@ public class GameActivity extends AppCompatActivity {
 
         } else if (transaction.recipientId.equals("broadcast") && transaction.type.equals(GameTransaction.TYPE_END) && !ownRole.equals(PLAYER_TYPE_HOST)) {
 
-            // TODO Display a fragment for clients instead, with a nice message and back button.
-            Toast.makeText(this, "The game has ended.", Toast.LENGTH_LONG).show();
-            this.finish();
+            replaceFragmentWith(new ClientEndFragment());
 
         } else if (transaction.recipientId.equals("host") && ownRole.equals(PLAYER_TYPE_HOST)) {
 
