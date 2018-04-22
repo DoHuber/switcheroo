@@ -4,13 +4,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.Base64;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 public class ImageExporter {
 
@@ -22,10 +23,12 @@ public class ImageExporter {
 
             if (element.type.equals(GameTransaction.TYPE_TEXT)) {
 
-                bitmaps.add(textToBitmap(element.payload, Color.BLACK));
+                Log.d("ImageExport", "Processing text payload: " + element.payload);
+                bitmaps.add(textToBitmap(element.payload, Color.GREEN));
 
             } else if (element.type.equals(GameTransaction.TYPE_IMG)) {
 
+                Log.d("ImageExport", "Processing img payload.");
                 bitmaps.add(base64toBitmap(element.payload));
 
             }
@@ -38,17 +41,17 @@ public class ImageExporter {
     // Slightly modified from: https://stackoverflow.com/questions/8799290/convert-string-text-to-bitmap?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
     private Bitmap textToBitmap(String text, int textColor) {
 
-        Paint paint = new Paint(ANTI_ALIAS_FLAG);
-        paint.setTextSize(12.0f);
-        paint.setColor(textColor);
-        paint.setTextAlign(Paint.Align.LEFT);
-        float baseline = -paint.ascent(); // ascent() is negative
-        int width = (int) (paint.measureText(text) + 0.5f); // round
-        int height = (int) (baseline + paint.descent() + 0.5f);
-        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(image);
-        canvas.drawText(text, 0, baseline, paint);
-        return image;
+        Bitmap bitmap = Bitmap.createBitmap(600, 200, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawBitmap(bitmap, 0, 0, null);
+        TextPaint textPaint = new TextPaint();
+        textPaint.setColor(Color.BLUE);
+        textPaint.setAntiAlias(true);
+        textPaint.setTextSize(64.0f);
+        StaticLayout sl= new StaticLayout(text, textPaint, bitmap.getWidth()-8, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        canvas.translate(6, 40);
+        sl.draw(canvas);
+        return bitmap;
 
     }
 

@@ -3,11 +3,11 @@ package no.ntnu.stud.dominih.groupten.switcheroo;
 @SuppressWarnings("WeakerAccess")
 public class GameTransaction {
 
-    public static final String TYPE_TEXT = "yg3T8ZVASCfR3RrVsJEU";
-    public static final String TYPE_IMG = "c7DqWBBDzQOuRegsYQpJ";
-    public static final String TYPE_END = "ipuSZKMHfb3YYcY92eYs";
-    public static final String TYPE_DONE = "paQx4p5YbDFlPkNCWJSr";
-    public static final String TYPE_NEXT = "5IxagGhVlAuARY3dCM4m";
+    public static final String TYPE_TEXT = "no.ntnu.stud.dominih.groupten.switcheroo.transactions.text";
+    public static final String TYPE_IMG = "no.ntnu.stud.dominih.groupten.switcheroo.transactions.image";
+    public static final String TYPE_END = "no.ntnu.stud.dominih.groupten.switcheroo.transactions.endofgame";
+    public static final String TYPE_DONE = "no.ntnu.stud.dominih.groupten.switcheroo.transactions.done";
+    public static final String TYPE_NEXT = "no.ntnu.stud.dominih.groupten.switcheroo.transactions.next";
 
     public GameTransaction() {
     }

@@ -35,7 +35,7 @@ public class GameActivity extends AppCompatActivity {
     private String cachedSenderId;
 
     private List<GameTransaction> transactionCache = new ArrayList<>();
-
+    private boolean gameEnding = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,13 +216,9 @@ public class GameActivity extends AppCompatActivity {
 
             }
 
-        }
+            if (gameEnding) {
 
-        if (ownRole.equals(PLAYER_TYPE_HOST)) {
-
-            if (transaction.type.equals(GameTransaction.TYPE_IMG) || transaction.type.equals(GameTransaction.TYPE_TEXT)) {
-
-                transactionCache.add(transaction);
+                finalizeTheEnd();
 
             }
 
@@ -239,6 +235,14 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void endGame() {
+
+        gameEnding = true;
+        GameTransaction t = new GameTransaction(cachedSenderId, GameTransaction.TYPE_NEXT, "host", MainActivity.userId);
+        gameClientService.sendGameTransaction(t);
+
+    }
+
+    private void finalizeTheEnd() {
 
         Bitmap fullImage = new ImageExporter().exportToBitmap(transactionCache);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
