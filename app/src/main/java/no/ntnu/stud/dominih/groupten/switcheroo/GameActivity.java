@@ -86,7 +86,7 @@ public class GameActivity extends AppCompatActivity {
         players.add(MainActivity.userId);
         this.players = players;
 
-        replaceFragmentWith(new DrawFragment());
+        replaceFragmentWith(new DrawingFragment());
 
     }
 

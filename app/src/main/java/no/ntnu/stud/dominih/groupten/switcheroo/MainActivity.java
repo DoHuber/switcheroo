@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
      *
      FragmentManager myFragmentManager;
      FragmentTransaction myFragmentTransaction;
-     DrawFragment myDrawFragment;
+     DrawingFragment myDrawFragment;
       \@Override
      protected void onCreate(Bundle savedInstanceState) {
      super.onCreate(savedInstanceState);
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
      myFragmentManager = getFragmentManager();
      myFragmentTransaction = myFragmentManager.beginTransaction();
-     myDrawFragment = DrawFragment.getInstance();
+     myDrawFragment = DrawingFragment.getInstance();
      myFragmentTransaction.add(R.id.fragment_container,myDrawFragment,"draw");
      myFragmentTransaction.commit();
      }

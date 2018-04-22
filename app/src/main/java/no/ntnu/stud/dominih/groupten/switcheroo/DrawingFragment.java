@@ -12,19 +12,17 @@ import android.widget.TextView;
 
 
 
-public class DrawFragment extends Fragment implements View.OnClickListener {
+public class DrawingFragment extends Fragment implements View.OnClickListener {
 
 
     public static final String KEY_HAS_TEXT = "MDSFMSDFDS";
     public static final String KEY_TEXT_CAPTION = "MDFKSFMKSDFDSF";
 
     private DrawView drawView;
-    private Button clearButton;
-    private Button sendButton;
     private GameActivity parent;
     private TextView textToDraw;
 
-    public DrawFragment() {
+    public DrawingFragment() {
         // Required empty public constructor
     }
 
@@ -34,17 +32,18 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_drawing, container, false);
         parent = (GameActivity) getActivity();
 
-        setupViews(view);
+        getViewReferences(view);
         loadText();
-        setupClickBehaviour(view);
+        setupButtons(view);
 
         return view;
 
     }
 
-    private void setupClickBehaviour(View view) {
-        sendButton = view.findViewById(R.id.send_button);
-        sendButton.setOnClickListener(this);
+    private void getViewReferences(View view) {
+        drawView = view.findViewById(R.id.drawing);
+
+        textToDraw = view.findViewById(R.id.txt_to_draw);
     }
 
     private void loadText() {
@@ -63,13 +62,12 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
         textToDraw.setText(text);
     }
 
-    private void setupViews(View view) {
-        drawView = view.findViewById(R.id.drawing);
-        clearButton = view.findViewById(R.id.clear_button);
+    private void setupButtons(View view) {
+        Button sendButton = view.findViewById(R.id.send_button);
+        sendButton.setOnClickListener(this);
+        Button clearButton = view.findViewById(R.id.clear_button);
         clearButton.setOnClickListener(this);
-        textToDraw = view.findViewById(R.id.txt_to_draw);
     }
-
 
     public void onClick(View v) {
 
