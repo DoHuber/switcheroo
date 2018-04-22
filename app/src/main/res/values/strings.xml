@@ -14,4 +14,5 @@
     <string name="textjoin_description">No camera permissions detected, falling back to manual entry. Please enter the host\'s game ID in the text field below.</string>
     <string name="textjoin_field_hint">Game ID</string>
     <string name="textjoin_button_caption">Join</string>
+    <string name="displayqr_headline">Hosting: Scan QR to join</string>
 </resources>

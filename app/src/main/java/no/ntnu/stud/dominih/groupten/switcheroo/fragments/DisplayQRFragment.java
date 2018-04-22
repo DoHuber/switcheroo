@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -40,6 +41,8 @@ public class DisplayQRFragment extends Fragment {
         }
 
         qrCodeDisplay = v.findViewById(R.id.qr_code_display);
+        TextView manualDisplay = v.findViewById(R.id.displayqr_plainid);
+        manualDisplay.setText(gameId);
 
         Button startButton = v.findViewById(R.id.start_game_button);
         startButton.setOnClickListener(new View.OnClickListener() {
