@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
                     setUsername(text);
                     dialog.dismiss();
-                    showMainMenuFragment();
+                    checkCameraPermissions();
 
                 }
 
