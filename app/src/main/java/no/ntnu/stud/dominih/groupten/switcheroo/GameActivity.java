@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.DrawingFragment;
+import no.ntnu.stud.dominih.groupten.switcheroo.fragments.EndOfGameFragment;
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.WaitingFragment;
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.WritingFragment;
 
@@ -21,11 +24,12 @@ public class GameActivity extends AppCompatActivity {
     private final WaitingFragment waitingFragment = new WaitingFragment();
 
     private GameClientService gameClientService;
-    private List<String> players;
+    private List<String> players = new ArrayList<>();
 
     private String ownRole;
     private String cachedPayload;
     private String cacheType;
+    private String cachedSenderId;
 
 
     @Override
@@ -86,8 +90,8 @@ public class GameActivity extends AppCompatActivity {
 
     private void onPlayerListReceived(List<String> players) {
 
-        players.add(MainActivity.userId);
-        this.players = players;
+        this.players.add(MainActivity.userId);
+        this.players.addAll(players);
 
         DrawingFragment drawingFragment = new DrawingFragment();
         Bundle arguments = new Bundle();
@@ -171,27 +175,21 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
 
-        } else if (transaction.recipientId.equals("broadcast") && transaction.type.equals(GameTransaction.TYPE_END)) {
+        } else if (transaction.recipientId.equals("broadcast") && transaction.type.equals(GameTransaction.TYPE_END) && !ownRole.equals(PLAYER_TYPE_HOST)) {
 
-            // The payload is the stitched image: Display that in a ScrollView and give the
-            // opportunity to save that.
-            // See TODO below
+            // TODO Display a fragment for clients instead, with a nice message and back button.
+            Toast.makeText(this, "The game has ended.", Toast.LENGTH_LONG).show();
+            this.finish();
 
         } else if (transaction.recipientId.equals("host") && ownRole.equals(PLAYER_TYPE_HOST)) {
-
-            // Received transaction for the host, those are mostly requests for the next address
-            // TODO Instead display a continue / export and end choice for the host.
 
             String senderId = transaction.senderId;
             int sendersPosition = players.indexOf(senderId);
 
             if (sendersPosition == (players.size() - 1)) {
 
-                // Last player, end the game TODO actually end it instead of conitnuing
-                // GameTransaction t = new GameTransaction("broadcast", GameTransaction.TYPE_END, "", MainActivity.userId);
-
-                GameTransaction t = new GameTransaction(senderId, GameTransaction.TYPE_NEXT, players.get(0), MainActivity.userId);
-                gameClientService.sendGameTransaction(t);
+                cachedSenderId = senderId;
+                replaceFragmentWith(new EndOfGameFragment());
 
             } else {
 
@@ -201,6 +199,21 @@ public class GameActivity extends AppCompatActivity {
             }
 
         }
+
+    }
+
+    public void continueGame() {
+
+        replaceFragmentWith(waitingFragment);
+        GameTransaction t = new GameTransaction(cachedSenderId, GameTransaction.TYPE_NEXT, players.get(0), MainActivity.userId);
+        gameClientService.sendGameTransaction(t);
+
+    }
+
+    public void endGame() {
+
+        GameTransaction t = new GameTransaction("broadcast", GameTransaction.TYPE_END, "", MainActivity.userId);
+        gameClientService.sendGameTransaction(t);
 
     }
 

@@ -15,4 +15,9 @@
     <string name="textjoin_field_hint">Game ID</string>
     <string name="textjoin_button_caption">Join</string>
     <string name="displayqr_headline">Hosting: Scan QR to join</string>
+    <string name="endgame_headline">Full circle: Round has ended</string>
+    <string name="endgame_cont">Continue playing</string>
+    <string name="endgame_back_main">Back to main menu</string>
+    <string name="endgame_export">Export image</string>
+    <string name="endgame_description">A full circle has been completed. You can continue playing, go back to the main menu, or export all texts and images as one big image to an app of your choice.</string>
 </resources>
