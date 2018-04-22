@@ -1,9 +1,13 @@
 package no.ntnu.stud.dominih.groupten.switcheroo.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +31,8 @@ public class TextFragment extends Fragment implements View.OnClickListener {
     private Button sendButton;
     private EditText answerText;
     private ImageView answerImage;
-
+    private Intent intent;
+    private Bundle prevPlayerImage;
 
 
     private OnFragmentInteractionListener mListener;
@@ -60,11 +65,15 @@ public class TextFragment extends Fragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
 
         View textFragmentView = inflater.inflate(R.layout.fragment_text, container, false);
         sendButton = textFragmentView.findViewById(R.id.send_button_text);
@@ -76,6 +85,15 @@ public class TextFragment extends Fragment implements View.OnClickListener {
 
         // Inflate the layout for this fragment
         return textFragmentView;
+    }
+
+    //Sets the image from the previous player
+    public void setBundle(Bundle answer){
+
+        String imageString = answer.getString("playerPrevImage");
+        byte [] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        answerImage.setImageBitmap(decodedImage);
     }
 
 
