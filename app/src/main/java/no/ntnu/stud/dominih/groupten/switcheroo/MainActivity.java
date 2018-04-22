@@ -18,11 +18,11 @@ import no.ntnu.stud.dominih.groupten.switcheroo.fragments.MainMenuFragment;
 public class MainActivity extends AppCompatActivity {
 
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 7734;
-    public static boolean cameraPermissionsGranted = false;
+    public static boolean areCameraPermissionsGranted = false;
     public static String userId = "";
 
-    private static final String KEY_PREFERENCES = "Mah dude";
-    private static final String KEY_USERNAME = "Mah dudes' usenram,e 420 laeize t";
+    private static final String KEY_PREFERENCES = "no.ntnu.stud.dominih.groupten.switcheroo.preferencekey";
+    private static final String KEY_USERNAME = "no.ntnu.stud.dominih.groupten.switcheroo.preferencekey.username";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
 
-            cameraPermissionsGranted = true;
+            areCameraPermissionsGranted = true;
             showMainMenuFragment();
 
         }
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
 
-            cameraPermissionsGranted = requestCode == CAMERA_PERMISSION_REQUEST_CODE
+            areCameraPermissionsGranted = requestCode == CAMERA_PERMISSION_REQUEST_CODE
                     && grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED;
 

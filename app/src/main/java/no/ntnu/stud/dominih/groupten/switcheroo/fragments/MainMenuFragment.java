@@ -58,7 +58,7 @@ public class MainMenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-               if (MainActivity.cameraPermissionsGranted) {
+               if (MainActivity.areCameraPermissionsGranted) {
 
                    doFragmentTransaction(new QRScanFragment());
 
