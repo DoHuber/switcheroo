@@ -164,6 +164,7 @@ public class GameActivity extends AppCompatActivity {
             } else {
 
                 GameTransaction t = new GameTransaction(senderId, GameTransaction.TYPE_NEXT, players.get(sendersPosition + 1), MainActivity.userId);
+                gameClientService.sendGameTransaction(t);
 
             }
 
