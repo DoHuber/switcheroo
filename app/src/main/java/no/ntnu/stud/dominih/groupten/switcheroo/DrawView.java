@@ -80,9 +80,19 @@ public class DrawView extends View {
 
     private Bitmap getBitmap() {
 
-        Bitmap bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
+        int width = this.getWidth();
+        int height = this.getHeight();
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         this.draw(canvas);
+
+        canvas.drawRect(0f, 0f, (float) width, 5f, paint);
+        canvas.drawRect(0f, (float) (height - 5), (float) width, (float) height, paint);
+        canvas.drawRect(0f, 0f, 5f, (float) height, paint);
+        canvas.drawRect((float) (width - 5), 0f, (float) width, (float) height, paint);
 
         return bitmap;
     }

@@ -43,9 +43,9 @@ public class DrawingFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getViewReferences(View view) {
-        drawView = view.findViewById(R.id.drawing);
+        drawView = view.findViewById(R.id.drawing_draw_view);
 
-        textToDraw = view.findViewById(R.id.txt_to_draw);
+        textToDraw = view.findViewById(R.id.drawing_text_hint);
     }
 
     private void loadText() {
@@ -65,20 +65,20 @@ public class DrawingFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setupButtons(View view) {
-        Button sendButton = view.findViewById(R.id.send_button);
+        Button sendButton = view.findViewById(R.id.drawing_send_button);
         sendButton.setOnClickListener(this);
-        Button clearButton = view.findViewById(R.id.clear_button);
+        Button clearButton = view.findViewById(R.id.drawing_clear_button);
         clearButton.setOnClickListener(this);
     }
 
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.clear_button:
+            case R.id.drawing_clear_button:
                 drawView.clearCanvas();
                 break;
 
-            case R.id.send_button:
+            case R.id.drawing_send_button:
 
                 String imgString = Base64.encodeToString(drawView.getByteArray(), Base64.DEFAULT);
                 parent.finishedDrawing(imgString);

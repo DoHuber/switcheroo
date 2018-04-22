@@ -44,12 +44,12 @@ public class WritingFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getViewRefs(View textFragmentView) {
-        answerImage = textFragmentView.findViewById(R.id.image_view);
-        answerText = textFragmentView.findViewById(R.id.answer_text);
+        answerImage = textFragmentView.findViewById(R.id.writing_image_view);
+        answerText = textFragmentView.findViewById(R.id.writing_answer_text);
     }
 
     private void setupSendButton(View textFragmentView) {
-        Button sendButton = textFragmentView.findViewById(R.id.send_button_text);
+        Button sendButton = textFragmentView.findViewById(R.id.writing_button_send);
         sendButton.setOnClickListener(this);
     }
 
