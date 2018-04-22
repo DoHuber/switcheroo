@@ -83,7 +83,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void onPlayerListReceived(List<String> players) {
 
-        players.add(MainActivity.mockupUsername);
+        players.add(MainActivity.userId);
         this.players = players;
 
         replaceFragmentWith(new DrawFragment());
@@ -97,7 +97,7 @@ public class GameActivity extends AppCompatActivity {
         cachedPayload = imageBase64;
         cacheType = GameTransaction.TYPE_IMG;
 
-        GameTransaction t = new GameTransaction("host", GameTransaction.TYPE_DONE, "", MainActivity.mockupUsername);
+        GameTransaction t = new GameTransaction("host", GameTransaction.TYPE_DONE, "", MainActivity.userId);
         gameClientService.sendGameTransaction(t);
 
     }
@@ -109,21 +109,21 @@ public class GameActivity extends AppCompatActivity {
         cachedPayload = text;
         cacheType = GameTransaction.TYPE_TEXT;
 
-        GameTransaction t = new GameTransaction("host", GameTransaction.TYPE_DONE, "", MainActivity.mockupUsername);
+        GameTransaction t = new GameTransaction("host", GameTransaction.TYPE_DONE, "", MainActivity.userId);
         gameClientService.sendGameTransaction(t);
 
     }
 
     private void onNextPlayerReceived(String nextPlayerId) {
 
-        GameTransaction t = new GameTransaction(nextPlayerId, cacheType, cachedPayload, MainActivity.mockupUsername);
+        GameTransaction t = new GameTransaction(nextPlayerId, cacheType, cachedPayload, MainActivity.userId);
         gameClientService.sendGameTransaction(t);
 
     }
 
     private void receivedTransaction(GameTransaction transaction) {
 
-        if (transaction.recipientId.equals(MainActivity.mockupUsername)) {
+        if (transaction.recipientId.equals(MainActivity.userId)) {
 
             // This is my transaction, do something funny, like opening the text
             String transactionType = transaction.type;
@@ -158,12 +158,12 @@ public class GameActivity extends AppCompatActivity {
             if (sendersPosition == (players.size() - 1)) {
 
                 // Last player, end the game
-                GameTransaction t = new GameTransaction("broadcast", GameTransaction.TYPE_END, "", MainActivity.mockupUsername);
+                GameTransaction t = new GameTransaction("broadcast", GameTransaction.TYPE_END, "", MainActivity.userId);
                 gameClientService.sendGameTransaction(t);
 
             } else {
 
-                GameTransaction t = new GameTransaction(senderId, GameTransaction.TYPE_NEXT, players.get(sendersPosition + 1), MainActivity.mockupUsername);
+                GameTransaction t = new GameTransaction(senderId, GameTransaction.TYPE_NEXT, players.get(sendersPosition + 1), MainActivity.userId);
 
             }
 

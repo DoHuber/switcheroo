@@ -23,7 +23,7 @@ public class GameClientService {
         this.gameId = gameId;
         DatabaseReference gameReference = FirebaseDatabase.getInstance().getReference("switcheroo").child(gameId);
         DatabaseReference newPlayer = gameReference.child("players").push();
-        newPlayer.setValue(MainActivity.mockupUsername);
+        newPlayer.setValue(MainActivity.userId);
 
     }
 

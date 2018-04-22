@@ -1,14 +1,17 @@
 package no.ntnu.stud.dominih.groupten.switcheroo;
 
 import android.Manifest;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-
-import java.util.UUID;
+import android.view.View;
+import android.widget.EditText;
 
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.MainMenuFragment;
 
@@ -16,7 +19,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 7734;
     public static boolean cameraPermissionsGranted = false;
-    public static final String mockupUsername = UUID.randomUUID().toString();
+    public static String userId = "";
+
+    private static final String KEY_PREFERENCES = "Mah dude";
+    private static final String KEY_USERNAME = "Mah dudes' usenram,e 420 laeize t";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +56,65 @@ public class MainActivity extends AppCompatActivity {
 
      **/
 
+    private String getUsername() {
+
+        SharedPreferences preferences = getSharedPreferences(KEY_PREFERENCES, MODE_PRIVATE);
+        return preferences.getString(KEY_USERNAME, "");
+
+    }
+
+    private void setUsername(String username) {
+
+        MainActivity.userId = username;
+
+        SharedPreferences preferences = getSharedPreferences(KEY_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(KEY_USERNAME, username)
+                .apply();
+
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
+
+        if (getUsername().equals("")) {
+
+            final EditText usernameField = new EditText(this);
+            usernameField.setHint("New username");
+
+            AlertDialog.Builder bob = new AlertDialog.Builder(this);
+            bob.setTitle("No username found")
+                    .setView(usernameField)
+                    .setPositiveButton("OK", null);
+
+            final AlertDialog dialog = bob.show();
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    String text = usernameField.getText().toString();
+                    if (text.length() > 15 || text.contains("host") || text.contains("broadcast")) {
+
+                        usernameField.setError("Too long or forbidden name");
+
+                    } else {
+
+                        setUsername(text);
+                        dialog.dismiss();
+
+                    }
+
+                }
+            });
+
+        } else {
+
+            userId = getUsername();
+
+        }
+
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
