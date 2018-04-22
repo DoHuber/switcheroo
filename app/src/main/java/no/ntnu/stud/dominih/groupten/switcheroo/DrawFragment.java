@@ -105,6 +105,17 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    /**
+     * Sets the textView to the answer of the previous player
+     * @param answer
+     */
+
+    public void setTextToDraw(Bundle answer){
+
+        String textString = answer.getString("textToDraw");
+        textToDraw.setText(textString);
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

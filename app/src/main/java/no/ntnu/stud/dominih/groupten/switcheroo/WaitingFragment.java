@@ -1,25 +1,23 @@
-package no.ntnu.stud.dominih.groupten.switcheroo.fragments;
+package no.ntnu.stud.dominih.groupten.switcheroo;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.util.Base64;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 
-import no.ntnu.stud.dominih.groupten.switcheroo.R;
-
-
-public class TextFragment extends Fragment implements View.OnClickListener {
+/*
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link WaitingFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link WaitingFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class WaitingFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,34 +27,31 @@ public class TextFragment extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
 
-    private Button sendButton;
-    private EditText answerText;
-    private ImageView answerImage;
-    private Bundle prevPlayerImage;
-
-
     private OnFragmentInteractionListener mListener;
 
-    public TextFragment() {
+    public WaitingFragment() {
         // Required empty public constructor
     }
 
-    public static TextFragment getInstance(){
-        TextFragment textFragment = new TextFragment();
-        textFragment.setRetainInstance(true);
-        return textFragment;
-    }
-/*
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment WaitingFragment.
+     */
     // TODO: Rename and change types and number of parameters
-    public static TextFragment newInstance(String param1, String param2) {
-        TextFragment fragment = new TextFragment();
+    public static WaitingFragment newInstance() {
+        WaitingFragment fragment = new WaitingFragment();
         Bundle args = new Bundle();
+        /*
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+        */
         return fragment;
     }
-    */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,49 +60,20 @@ public class TextFragment extends Fragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-
-        View textFragmentView = inflater.inflate(R.layout.fragment_text, container, false);
-        sendButton = textFragmentView.findViewById(R.id.send_button_text);
-        sendButton.setOnClickListener(this);
-        answerImage = textFragmentView.findViewById(R.id.image_view);
-        answerText = textFragmentView.findViewById(R.id.answer_text);
-
-
-
         // Inflate the layout for this fragment
-        return textFragmentView;
+        return inflater.inflate(R.layout.fragment_waiting, container, false);
     }
-
-    //Sets the image from the previous player
-    public void setBundle(Bundle answer){
-
-        String imageString = answer.getString("playerPrevImage");
-        byte [] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
-        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        answerImage.setImageBitmap(decodedImage);
-    }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
-    }
-
-    @Override
-    public void onClick(View view) {
-        //TODO SEND IT TO THE DATABASE
-        String answer = answerText.getText().toString();
     }
 /*
     @Override
@@ -126,9 +92,7 @@ public class TextFragment extends Fragment implements View.OnClickListener {
         super.onDetach();
         mListener = null;
     }
-
-    */
-
+*/
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
