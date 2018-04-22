@@ -16,9 +16,15 @@ public class GameActivity extends AppCompatActivity {
     public static final String PLAYER_TYPE_CLIENT = "Client";
     public static final String PLAYER_TYPE_HOST = "Host";
 
+    private WaitingFragment waitingFragment = new WaitingFragment();
+
     private GameClientService gameClientService;
     private GameHostService gameHostService;
     private List<String> players;
+
+    private String ownRole;
+    private String cachedPayload;
+    private String cacheType;
 
 
     @Override
@@ -30,6 +36,7 @@ public class GameActivity extends AppCompatActivity {
         if (arguments != null) {
 
             String role = arguments.getString(GameActivity.KEY_PLAYER_TYPE);
+            ownRole = role;
             String gameId = arguments.getString(GameActivity.KEY_GAME_ID);
 
             if (GameActivity.PLAYER_TYPE_CLIENT.equals(role)) {
@@ -37,7 +44,7 @@ public class GameActivity extends AppCompatActivity {
                 gameClientService = new GameClientService(gameId);
                 gameClientService.subscribeForTransactions(new GameTransactionCallback());
 
-                doFragmentTransaction(new WaitingFragment());
+                replaceFragmentWith(waitingFragment);
 
             } else {
 
@@ -65,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void doFragmentTransaction(Fragment f) {
+    private void replaceFragmentWith(Fragment f) {
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -79,23 +86,38 @@ public class GameActivity extends AppCompatActivity {
         players.add(MainActivity.mockupUsername);
         this.players = players;
 
-        doFragmentTransaction(new DrawFragment());
+        replaceFragmentWith(new DrawFragment());
 
     }
 
     public void finishedDrawing(String imageBase64) {
 
-        doFragmentTransaction(new WaitingFragment());
-        GameTransaction transaction = new GameTransaction(players.get(0),
-                GameTransaction.TYPE_IMG, imageBase64, players.get(1));
-        gameHostService.sendGameTransaction(transaction);
+        replaceFragmentWith(waitingFragment);
+
+        cachedPayload = imageBase64;
+        cacheType = GameTransaction.TYPE_IMG;
+
+        GameTransaction t = new GameTransaction("host", GameTransaction.TYPE_DONE, "", MainActivity.mockupUsername);
+        gameClientService.sendGameTransaction(t);
 
     }
 
     public void finishedWriting(String text) {
 
+        replaceFragmentWith(waitingFragment);
 
+        cachedPayload = text;
+        cacheType = GameTransaction.TYPE_TEXT;
 
+        GameTransaction t = new GameTransaction("host", GameTransaction.TYPE_DONE, "", MainActivity.mockupUsername);
+        gameClientService.sendGameTransaction(t);
+
+    }
+
+    private void onNextPlayerReceived(String nextPlayerId) {
+
+        GameTransaction t = new GameTransaction(nextPlayerId, cacheType, cachedPayload, MainActivity.mockupUsername);
+        gameClientService.sendGameTransaction(t);
 
     }
 
@@ -104,11 +126,46 @@ public class GameActivity extends AppCompatActivity {
         if (transaction.recipientId.equals(MainActivity.mockupUsername)) {
 
             // This is my transaction, do something funny, like opening the text
+            String transactionType = transaction.type;
+            if (transactionType.equals(GameTransaction.TYPE_NEXT)) {
 
+                onNextPlayerReceived(transaction.payload);
 
-        } else if (transaction.recipientId.equals("all")) {
+            } else if (transactionType.equals(GameTransaction.TYPE_IMG)) {
 
-            // The game has ended, probably.
+                // Open the text fragment with arguments, since this is "describe the image"
+
+            } else if (transactionType.equals(GameTransaction.TYPE_TEXT)) {
+
+                // Open the drawing fragment with arguments, since this is "draw the caption"
+
+            }
+
+        } else if (transaction.recipientId.equals("broadcast") && transaction.type.equals(GameTransaction.TYPE_END)) {
+
+            // The payload is the stitched image: Display that in a ScrollView and give the
+            // opportunity to save that.
+            // See TODO below
+
+        } else if (transaction.recipientId.equals("host") && ownRole.equals(PLAYER_TYPE_HOST)) {
+
+            // Received transaction for the host, those are mostly requests for the next address
+            // TODO Instead display a continue / export and end choice for the host.
+
+            String senderId = transaction.senderId;
+            int sendersPosition = players.indexOf(senderId);
+
+            if (sendersPosition == (players.size() - 1)) {
+
+                // Last player, end the game
+                GameTransaction t = new GameTransaction("broadcast", GameTransaction.TYPE_END, "", MainActivity.mockupUsername);
+                gameClientService.sendGameTransaction(t);
+
+            } else {
+
+                GameTransaction t = new GameTransaction(senderId, GameTransaction.TYPE_NEXT, players.get(sendersPosition + 1), MainActivity.mockupUsername);
+
+            }
 
         }
 

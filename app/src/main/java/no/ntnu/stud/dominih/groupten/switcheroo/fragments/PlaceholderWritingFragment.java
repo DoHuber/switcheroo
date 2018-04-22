@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import no.ntnu.stud.dominih.groupten.switcheroo.R;
 
-public class WritingFragment extends Fragment {
+public class PlaceholderWritingFragment extends Fragment {
 
 
     @Nullable

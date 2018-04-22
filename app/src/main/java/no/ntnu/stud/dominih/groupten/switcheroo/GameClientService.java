@@ -27,6 +27,15 @@ public class GameClientService {
 
     }
 
+    public void sendGameTransaction(GameTransaction transaction) {
+
+        DatabaseReference gameReference = FirebaseDatabase.getInstance().getReference("switcheroo").child(gameId);
+        DatabaseReference newLogChild = gameReference.child("log").push();
+
+        newLogChild.setValue(transaction);
+
+    }
+
     public void subscribeForTransactions(final AsyncCallback<GameTransaction> callback) {
 
         DatabaseReference gameReference = FirebaseDatabase.getInstance().getReference("switcheroo").child(gameId);

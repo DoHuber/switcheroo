@@ -3,31 +3,34 @@ package no.ntnu.stud.dominih.groupten.switcheroo;
 @SuppressWarnings("WeakerAccess")
 public class GameTransaction {
 
-    public static final String TYPE_TEXT = "text/plain";
-    public static final String TYPE_IMG = "image/*";
-    public static final String TYPE_END = "null";
+    public static final String TYPE_TEXT = "yg3T8ZVASCfR3RrVsJEU";
+    public static final String TYPE_IMG = "c7DqWBBDzQOuRegsYQpJ";
+    public static final String TYPE_END = "ipuSZKMHfb3YYcY92eYs";
+    public static final String TYPE_DONE = "paQx4p5YbDFlPkNCWJSr";
+    public static final String TYPE_NEXT = "5IxagGhVlAuARY3dCM4m";
 
-    public GameTransaction() {}
+    public GameTransaction() {
+    }
 
-    public GameTransaction(String recipientId, String payloadType, String payload, String nextRecipient) {
+    public GameTransaction(String recipientId, String type, String payload, String senderId) {
         this.recipientId = recipientId;
-        this.payloadType = payloadType;
+        this.type = type;
         this.payload = payload;
-        this.nextRecipient = nextRecipient;
+        this.senderId = senderId;
     }
 
     String recipientId;
-    String payloadType;
+    String type;
     String payload;
-    String nextRecipient;
+    String senderId;
 
     @Override
     public String toString() {
         return "GameTransaction{" +
                 "recipientId='" + recipientId + '\'' +
-                ", payloadType='" + payloadType + '\'' +
+                ", type='" + type + '\'' +
                 ", payload='" + payload + '\'' +
-                ", nextRecipient='" + nextRecipient + '\'' +
+                ", senderId='" + senderId + '\'' +
                 '}';
     }
 }
