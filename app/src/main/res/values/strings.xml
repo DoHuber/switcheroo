@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Switcheroo</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="join_game">Join game</string>
     <string name="host_game">Host game</string>
     <string name="a_qr_code">A qr code</string>
@@ -12,4 +10,8 @@
     <string name="textview">TextView</string>
     <string name="caption_image_2">An image to view</string>
     <string name="answer_caption">Write your answer!!</string>
+    <string name="textjoin_headline">Join game: Manual entry</string>
+    <string name="textjoin_description">No camera permissions detected, falling back to manual entry. Please enter the host\'s game ID in the text field below.</string>
+    <string name="textjoin_field_hint">Game ID</string>
+    <string name="textjoin_button_caption">Join</string>
 </resources>
