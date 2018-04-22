@@ -84,7 +84,7 @@ public class DisplayQRFragment extends Fragment {
 
         } catch (WriterException e) {
             e.printStackTrace();
-            // TODO Implement text-based fallback if QR-Code-generation fails
+            qrCodeDisplay.setImageResource(R.drawable.error);
         }
 
     }
