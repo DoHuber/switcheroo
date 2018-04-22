@@ -9,6 +9,7 @@ import java.util.List;
 
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.DrawingFragment;
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.WaitingFragment;
+import no.ntnu.stud.dominih.groupten.switcheroo.fragments.WritingFragment;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -52,6 +53,8 @@ public class GameActivity extends AppCompatActivity {
                 gameHostService = new GameHostService(gameId);
                 gameClientService = new GameClientService(gameId);
 
+                gameClientService.subscribeForTransactions(new GameTransactionCallback());
+
                 gameHostService.getRegisteredPlayers(new AsyncCallback<String>() {
 
                     @Override
@@ -87,7 +90,12 @@ public class GameActivity extends AppCompatActivity {
         players.add(MainActivity.userId);
         this.players = players;
 
-        replaceFragmentWith(new DrawingFragment());
+        DrawingFragment drawingFragment = new DrawingFragment();
+        Bundle arguments = new Bundle();
+        arguments.putBoolean(DrawingFragment.KEY_HAS_TEXT, false);
+        drawingFragment.setArguments(arguments);
+
+        replaceFragmentWith(drawingFragment);
 
     }
 
@@ -124,22 +132,44 @@ public class GameActivity extends AppCompatActivity {
 
     private void receivedTransaction(GameTransaction transaction) {
 
+        Log.d("GameActivity", "Transcation received: " + transaction.toString());
+
         if (transaction.recipientId.equals(MainActivity.userId)) {
 
             // This is my transaction, do something funny, like opening the text
             String transactionType = transaction.type;
-            if (transactionType.equals(GameTransaction.TYPE_NEXT)) {
+            switch (transactionType) {
+                case GameTransaction.TYPE_NEXT:
 
-                onNextPlayerReceived(transaction.payload);
+                    onNextPlayerReceived(transaction.payload);
 
-            } else if (transactionType.equals(GameTransaction.TYPE_IMG)) {
+                    break;
+                case GameTransaction.TYPE_IMG: {
 
-                // Open the text fragment with arguments, since this is "describe the image"
+                    Bundle arguments = new Bundle();
+                    arguments.putString(WritingFragment.KEY_ENCODED_IMAGE, transaction.payload);
 
-            } else if (transactionType.equals(GameTransaction.TYPE_TEXT)) {
+                    WritingFragment writingFragment = new WritingFragment();
+                    writingFragment.setArguments(arguments);
 
-                // Open the drawing fragment with arguments, since this is "draw the caption"
+                    replaceFragmentWith(writingFragment);
 
+
+                    break;
+                }
+                case GameTransaction.TYPE_TEXT: {
+
+                    Bundle arguments = new Bundle();
+                    arguments.putBoolean(DrawingFragment.KEY_HAS_TEXT, true);
+                    arguments.putString(DrawingFragment.KEY_TEXT_CAPTION, transaction.payload);
+
+                    DrawingFragment drawingFragment = new DrawingFragment();
+                    drawingFragment.setArguments(arguments);
+
+                    replaceFragmentWith(drawingFragment);
+
+                    break;
+                }
             }
 
         } else if (transaction.recipientId.equals("broadcast") && transaction.type.equals(GameTransaction.TYPE_END)) {
@@ -158,8 +188,10 @@ public class GameActivity extends AppCompatActivity {
 
             if (sendersPosition == (players.size() - 1)) {
 
-                // Last player, end the game
-                GameTransaction t = new GameTransaction("broadcast", GameTransaction.TYPE_END, "", MainActivity.userId);
+                // Last player, end the game TODO actually end it instead of conitnuing
+                // GameTransaction t = new GameTransaction("broadcast", GameTransaction.TYPE_END, "", MainActivity.userId);
+
+                GameTransaction t = new GameTransaction(senderId, GameTransaction.TYPE_NEXT, players.get(0), MainActivity.userId);
                 gameClientService.sendGameTransaction(t);
 
             } else {

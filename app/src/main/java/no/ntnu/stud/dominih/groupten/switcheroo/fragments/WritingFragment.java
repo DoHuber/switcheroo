@@ -33,7 +33,7 @@ public class WritingFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View textFragmentView = inflater.inflate(R.layout.fragment_text, container, false);
+        View textFragmentView = inflater.inflate(R.layout.fragment_writing, container, false);
         parent = (GameActivity) getActivity(); 
 
         getViewRefs(textFragmentView);
@@ -58,7 +58,7 @@ public class WritingFragment extends Fragment implements View.OnClickListener {
         if (arguments != null) {
 
             String encodedImg = arguments.getString(KEY_ENCODED_IMAGE);
-            byte [] imageBytes = Base64.decode(encodedImg, Base64.DEFAULT);
+            byte[] imageBytes = Base64.decode(encodedImg, Base64.DEFAULT);
             Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
             answerImage.setImageBitmap(decodedImage);
 

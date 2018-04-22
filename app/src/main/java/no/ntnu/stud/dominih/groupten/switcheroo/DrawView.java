@@ -16,7 +16,7 @@ import java.io.ByteArrayOutputStream;
  * Created by Wolfer on 21/04/2018.
  */
 
-public class DrawView extends View{
+public class DrawView extends View {
 
     public int width;
     public int height;
@@ -24,11 +24,12 @@ public class DrawView extends View{
     private Canvas myCanvas;
     private Paint myPaint;
     private Path myPath;
-    private float pointX,pointY;
+    private float pointX, pointY;
     private static final float TOLERANCE = 5;
 
-    public DrawView(Context context,  AttributeSet attrs) {
+    public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
         myPath = new Path();
         myPaint = new Paint();
         myPaint.setAntiAlias(true);
@@ -36,70 +37,92 @@ public class DrawView extends View{
         myPaint.setStyle(Paint.Style.STROKE);
         myPaint.setStrokeJoin(Paint.Join.ROUND);
         myPaint.setStrokeWidth(4f);
+
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawPath(myPath,myPaint);
+        canvas.drawPath(myPath, myPaint);
+        myCanvas = canvas;
+
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        myBitmap = Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);
+        myBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         myCanvas = new Canvas(myBitmap);
     }
-    private void onStartTouch(float x, float y){
-        myPath.moveTo(x,y);
+
+    private void onStartTouch(float x, float y) {
+        myPath.moveTo(x, y);
         pointX = x;
         pointY = y;
     }
 
-    private void moveTouch(float x,float y){
-        float difX = Math.abs(x-pointX);
-        float difY = Math.abs(y-pointY);
-        if(difX >= TOLERANCE || difY>=TOLERANCE){
-            myPath.quadTo(pointX,pointY,(x+pointX)/2,(y+pointY)/2);
+    private void moveTouch(float x, float y) {
+        float difX = Math.abs(x - pointX);
+        float difY = Math.abs(y - pointY);
+        if (difX >= TOLERANCE || difY >= TOLERANCE) {
+            myPath.quadTo(pointX, pointY, (x + pointX) / 2, (y + pointY) / 2);
             pointX = x;
             pointY = y;
         }
     }
-    public void clearCanvas(){
+
+    public void clearCanvas() {
         myPath.reset();
         invalidate();
     }
-    private void upTouch(){
-        myPath.lineTo(pointX,pointY);
+
+    private void upTouch() {
+        myPath.lineTo(pointX, pointY);
     }
 
-    public byte[] toJPEG(){
-        ByteArrayOutputStream jpeg = new ByteArrayOutputStream();
-        Bitmap bitmap = Bitmap.createBitmap(this.getWidth(),this.getHeight(),Bitmap.Config.ARGB_8888);
+    public byte[] getByteArray() {
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+
+        return outputStream.toByteArray();
+    }
+
+    public Bitmap getBitmap() {
+
+        Bitmap bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         this.draw(canvas);
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,jpeg);
-        return jpeg.toByteArray();
+
+        return bitmap;
     }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float x= event.getX();
+        float x = event.getX();
         float y = event.getY();
 
-        switch(event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                onStartTouch(x,y);
+                onStartTouch(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
-                moveTouch(x,y);
+                moveTouch(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
                 upTouch();
                 invalidate();
                 break;
+                default:
+                    performClick();
         }
         return true;
     }
