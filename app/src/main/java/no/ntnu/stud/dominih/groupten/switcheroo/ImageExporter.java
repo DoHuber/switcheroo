@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -44,12 +45,15 @@ public class ImageExporter {
         Bitmap bitmap = Bitmap.createBitmap(600, 200, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         canvas.drawBitmap(bitmap, 0, 0, null);
+        Paint white = new Paint();
+        white.setColor(Color.WHITE);
         TextPaint textPaint = new TextPaint();
         textPaint.setColor(Color.BLUE);
         textPaint.setAntiAlias(true);
         textPaint.setTextSize(64.0f);
         StaticLayout sl= new StaticLayout(text, textPaint, bitmap.getWidth()-8, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
         canvas.translate(6, 40);
+        canvas.drawRect(0f, 0f, 600f, 200f, white);
         sl.draw(canvas);
         return bitmap;
 
