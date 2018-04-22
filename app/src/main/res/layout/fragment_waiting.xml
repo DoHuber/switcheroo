@@ -8,6 +8,7 @@
         android:id="@+id/waiting_headline"
         android:layout_width="368dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/hint_transactions"
         android:textAlignment="center"
         android:textSize="24sp"
