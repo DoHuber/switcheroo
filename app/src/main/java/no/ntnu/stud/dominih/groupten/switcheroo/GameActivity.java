@@ -276,4 +276,10 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    public void backToMainMenu() {
+
+        this.finish();
+
+    }
+
 }

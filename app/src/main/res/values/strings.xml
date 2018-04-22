@@ -3,7 +3,7 @@
     <string name="join_game">Join game</string>
     <string name="host_game">Host game</string>
     <string name="a_qr_code">A qr code</string>
-    <string name="hint_transactions">Waiting for game transactions!</string>
+    <string name="hint_transactions">Please wait.</string>
     <string name="start_game">Start game</string>
     <string name="clear">Clear</string>
     <string name="send">Send</string>
@@ -26,4 +26,7 @@
     <string name="clientend_export">Export</string>
     <string name="hostend_endgame">End game</string>
     <string name="clientend_imageview_alt">The full image after the game.</string>
+    <string name="quit">Quit</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="main_menu_body">Welcome to Switcheroo! To join an existing game, select the Joinbutton. To host a new game, click the Hostbutton.</string>
 </resources>
