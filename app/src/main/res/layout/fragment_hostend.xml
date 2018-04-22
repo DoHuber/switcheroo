@@ -34,21 +34,11 @@
         android:id="@+id/endgame_button_main_menu"
         android:layout_width="368dp"
         android:layout_height="wrap_content"
-        android:text="@string/endgame_back_main"
+        android:text="@string/hostend_endgame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/endgame_button_continue" />
-
-    <Button
-        android:id="@+id/endgame_button_export"
-        android:layout_width="368dp"
-        android:layout_height="wrap_content"
-        android:text="@string/endgame_export"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endgame_button_main_menu" />
 
     <TextView
         android:id="@+id/endgame_caption"

@@ -1,13 +1,17 @@
 package no.ntnu.stud.dominih.groupten.switcheroo.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import no.ntnu.stud.dominih.groupten.switcheroo.R;
@@ -47,6 +51,18 @@ public class ClientEndFragment extends Fragment {
 
             }
         });
+
+        ImageView fullImageView = v.findViewById(R.id.clientend_imageview);
+        Bundle args = getArguments();
+
+        if (args != null) {
+
+            String base64 = args.getString("full-image");
+            byte[] imageBytes = Base64.decode(base64, Base64.DEFAULT);
+            Bitmap fullImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            fullImageView.setImageBitmap(fullImage);
+
+        }
 
         return v;
 

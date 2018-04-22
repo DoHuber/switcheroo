@@ -1,16 +1,19 @@
 package no.ntnu.stud.dominih.groupten.switcheroo;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.ClientEndFragment;
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.DrawingFragment;
-import no.ntnu.stud.dominih.groupten.switcheroo.fragments.EndOfGameFragment;
+import no.ntnu.stud.dominih.groupten.switcheroo.fragments.HostEndFragment;
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.WaitingFragment;
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.WritingFragment;
 
@@ -30,6 +33,8 @@ public class GameActivity extends AppCompatActivity {
     private String cachedPayload;
     private String cacheType;
     private String cachedSenderId;
+
+    private List<GameTransaction> transactionCache = new ArrayList<>();
 
 
     @Override
@@ -137,6 +142,16 @@ public class GameActivity extends AppCompatActivity {
 
         Log.d("GameActivity", "Transcation received: " + transaction.toString());
 
+        if (ownRole.equals(PLAYER_TYPE_HOST)) {
+
+            if (transaction.type.equals(GameTransaction.TYPE_IMG) || transaction.type.equals(GameTransaction.TYPE_TEXT)) {
+
+                transactionCache.add(transaction);
+
+            }
+
+        }
+
         if (transaction.recipientId.equals(MainActivity.userId)) {
 
             // This is my transaction, do something funny, like opening the text
@@ -175,9 +190,14 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
 
-        } else if (transaction.recipientId.equals("broadcast") && transaction.type.equals(GameTransaction.TYPE_END) && !ownRole.equals(PLAYER_TYPE_HOST)) {
+        } else if (transaction.recipientId.equals("broadcast") && transaction.type.equals(GameTransaction.TYPE_END)) {
 
-            replaceFragmentWith(new ClientEndFragment());
+            ClientEndFragment cef = new ClientEndFragment();
+            Bundle arguments = new Bundle();
+            arguments.putString("full-image", transaction.payload);
+            cef.setArguments(arguments);
+
+            replaceFragmentWith(cef);
 
         } else if (transaction.recipientId.equals("host") && ownRole.equals(PLAYER_TYPE_HOST)) {
 
@@ -187,12 +207,22 @@ public class GameActivity extends AppCompatActivity {
             if (sendersPosition == (players.size() - 1)) {
 
                 cachedSenderId = senderId;
-                replaceFragmentWith(new EndOfGameFragment());
+                replaceFragmentWith(new HostEndFragment());
 
             } else {
 
                 GameTransaction t = new GameTransaction(senderId, GameTransaction.TYPE_NEXT, players.get(sendersPosition + 1), MainActivity.userId);
                 gameClientService.sendGameTransaction(t);
+
+            }
+
+        }
+
+        if (ownRole.equals(PLAYER_TYPE_HOST)) {
+
+            if (transaction.type.equals(GameTransaction.TYPE_IMG) || transaction.type.equals(GameTransaction.TYPE_TEXT)) {
+
+                transactionCache.add(transaction);
 
             }
 
@@ -210,7 +240,12 @@ public class GameActivity extends AppCompatActivity {
 
     public void endGame() {
 
-        GameTransaction t = new GameTransaction("broadcast", GameTransaction.TYPE_END, "", MainActivity.userId);
+        Bitmap fullImage = new ImageExporter().exportToBitmap(transactionCache);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        fullImage.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        String imgString = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+
+        GameTransaction t = new GameTransaction("broadcast", GameTransaction.TYPE_END, imgString, MainActivity.userId);
         gameClientService.sendGameTransaction(t);
 
     }

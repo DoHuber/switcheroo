@@ -24,4 +24,6 @@
     <string name="clientend_description">The host has ended the game. You can either go back to the main menu directly, or export the full picture to an app of your choice.</string>
     <string name="clientend_back_main">Back to main menu</string>
     <string name="clientend_export">Export</string>
+    <string name="hostend_endgame">End game</string>
+    <string name="clientend_imageview_alt">The full image after the game.</string>
 </resources>
