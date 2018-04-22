@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -18,12 +19,8 @@ import java.io.ByteArrayOutputStream;
 
 public class DrawView extends View {
 
-    public int width;
-    public int height;
-    private Bitmap myBitmap;
-    private Canvas myCanvas;
-    private Paint myPaint;
-    private Path myPath;
+    private final Paint myPaint;
+    private final Path myPath;
     private float pointX, pointY;
     private static final float TOLERANCE = 5;
 
@@ -45,15 +42,7 @@ public class DrawView extends View {
         super.onDraw(canvas);
 
         canvas.drawPath(myPath, myPaint);
-        myCanvas = canvas;
 
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        myBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        myCanvas = new Canvas(myBitmap);
     }
 
     private void onStartTouch(float x, float y) {
@@ -89,7 +78,7 @@ public class DrawView extends View {
         return outputStream.toByteArray();
     }
 
-    public Bitmap getBitmap() {
+    private Bitmap getBitmap() {
 
         Bitmap bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
@@ -100,6 +89,7 @@ public class DrawView extends View {
 
     @Override
     public boolean performClick() {
+        Log.d("DrawView", "performClick() was called.");
         return super.performClick();
     }
 

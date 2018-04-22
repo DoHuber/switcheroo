@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,21 +60,6 @@ public class QRScanFragment extends Fragment implements QRCodeReaderView.OnQRCod
         i.putExtras(extras);
 
         startActivity(i);
-
-    }
-
-    private void doFragmentTransaction(Fragment fragment) {
-
-        FragmentManager fm = getFragmentManager();
-        if (fm != null) {
-
-            fm
-                    .beginTransaction()
-                    .replace(R.id.main_fragment_container, fragment)
-                    .addToBackStack("")
-                    .commit();
-
-        }
 
     }
 

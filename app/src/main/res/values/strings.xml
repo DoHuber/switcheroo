@@ -2,7 +2,6 @@
     <string name="app_name">Switcheroo</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="join_game">Join game</string>
     <string name="host_game">Host game</string>
     <string name="a_qr_code">A qr code</string>

@@ -4,7 +4,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
-public abstract class AbstractChildEventListener implements ChildEventListener {
+abstract class AbstractChildEventListener implements ChildEventListener {
 
     @Override
     public abstract void onChildAdded(DataSnapshot dataSnapshot, String s);

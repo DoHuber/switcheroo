@@ -31,15 +31,6 @@ public class GameHostService {
 
     }
 
-    public void sendGameTransaction(GameTransaction transaction) {
-
-        DatabaseReference gameReference = FirebaseDatabase.getInstance().getReference("switcheroo").child(gameId);
-        DatabaseReference newLogChild = gameReference.child("log").push();
-
-        newLogChild.setValue(transaction);
-
-    }
-
     public void getRegisteredPlayers(final AsyncCallback<String> callback) {
 
         DatabaseReference gameReference = FirebaseDatabase.getInstance().getReference("switcheroo").child(gameId);
@@ -53,8 +44,12 @@ public class GameHostService {
 
                 for (DataSnapshot element : dataSnapshot.getChildren()) {
 
-                    String boi = element.getValue().toString();
-                    result.add(boi);
+                    if (element.getValue() != null) {
+
+                        String boi = element.getValue().toString();
+                        result.add(boi);
+
+                    }
 
                 }
 
@@ -69,10 +64,6 @@ public class GameHostService {
 
         });
 
-    }
-
-    public String getGameId() {
-        return gameId;
     }
 
 }

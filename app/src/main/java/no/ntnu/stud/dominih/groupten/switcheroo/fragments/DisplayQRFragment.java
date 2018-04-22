@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,21 +85,6 @@ public class DisplayQRFragment extends Fragment {
         } catch (WriterException e) {
             e.printStackTrace();
             // TODO Implement text-based fallback if QR-Code-generation fails
-        }
-
-    }
-
-    private void doFragmentTransaction(Fragment fragment) {
-
-        FragmentManager fm = getFragmentManager();
-        if (fm != null) {
-
-            fm
-                    .beginTransaction()
-                    .replace(R.id.main_fragment_container, fragment)
-                    .addToBackStack("")
-                    .commit();
-
         }
 
     }

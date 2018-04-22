@@ -1,3 +1,5 @@
+<!--suppress AndroidDomInspection -->
+<!-- Inspection is suppressed due to it being false, it is a known bug. -->
 <resources>
 
     <!-- Base application theme. -->

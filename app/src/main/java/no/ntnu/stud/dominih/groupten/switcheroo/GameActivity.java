@@ -18,10 +18,9 @@ public class GameActivity extends AppCompatActivity {
     public static final String PLAYER_TYPE_CLIENT = "Client";
     public static final String PLAYER_TYPE_HOST = "Host";
 
-    private WaitingFragment waitingFragment = new WaitingFragment();
+    private final WaitingFragment waitingFragment = new WaitingFragment();
 
     private GameClientService gameClientService;
-    private GameHostService gameHostService;
     private List<String> players;
 
     private String ownRole;
@@ -50,7 +49,7 @@ public class GameActivity extends AppCompatActivity {
 
             } else {
 
-                gameHostService = new GameHostService(gameId);
+                GameHostService gameHostService = new GameHostService(gameId);
                 gameClientService = new GameClientService(gameId);
 
                 gameClientService.subscribeForTransactions(new GameTransactionCallback());

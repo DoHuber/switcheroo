@@ -3,9 +3,11 @@ package no.ntnu.stud.dominih.groupten.switcheroo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+@SuppressWarnings({"FieldCanBeLocal", "unused", "WeakerAccess"})
+        // Model class
+class Game {
 
-    String gameid;
+    private final String gameid;
 
     String lastUpdate = Long.toHexString(System.currentTimeMillis());
     List<String> log = new ArrayList<>();
