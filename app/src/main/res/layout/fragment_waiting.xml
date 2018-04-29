@@ -32,11 +32,13 @@
     <Button
         android:id="@+id/waiting_abort"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="368dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="@string/quit"
+        android:background="@drawable/rounded_kawaii_buttons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="14dp"/>
 </android.support.constraint.ConstraintLayout>

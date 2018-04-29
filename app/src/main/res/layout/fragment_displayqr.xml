@@ -23,6 +23,7 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
         android:contentDescription="@string/a_qr_code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -44,8 +45,10 @@
 
     <Button
         android:id="@+id/start_game_button"
-        android:layout_width="368dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_kawaii_buttons3"
         android:text="@string/start_game"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

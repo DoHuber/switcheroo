@@ -30,23 +30,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_menu_headline" />
+        app:layout_constraintTop_toBottomOf="@+id/main_menu_headline"
+        android:layout_marginBottom="50dp"/>
 
     <Button
         android:id="@+id/join_button"
-        android:layout_width="368dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/rounded_kawaii_buttons2"
         android:text="@string/join_game"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_menu_body" />
+        app:layout_constraintTop_toBottomOf="@+id/main_menu_body"
+        app:layout_goneMarginTop="50dp" />
 
     <Button
         android:id="@+id/host_button"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="368dp"
+        android:layout_width="250dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_kawaii_buttons"
         android:layout_height="wrap_content"
         android:text="@string/host_game"
         app:layout_constraintEnd_toEndOf="parent"

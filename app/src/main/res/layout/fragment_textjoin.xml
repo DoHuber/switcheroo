@@ -33,23 +33,24 @@
         android:id="@+id/textjoin_edittext"
         android:layout_width="368dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
         android:ems="10"
         android:hint="@string/textjoin_field_hint"
         android:inputType="textPersonName"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textjoin_details" />
 
     <Button
         android:id="@+id/textjoin_submit_button"
-        android:layout_width="368dp"
-        android:layout_height="wrap_content"
-        android:text="@string/textjoin_button_caption"
         style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_kawaii_buttons"
+        android:text="@string/textjoin_button_caption"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textjoin_edittext" />
 </android.support.constraint.ConstraintLayout>

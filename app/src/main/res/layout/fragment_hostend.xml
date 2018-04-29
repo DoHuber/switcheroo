@@ -21,22 +21,23 @@
     <Button
         android:id="@+id/endgame_button_continue"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="368dp"
+        android:layout_width="250dp"
+        android:background="@drawable/rounded_kawaii_buttons"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="56dp"
         android:text="@string/endgame_cont"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/endgame_caption" />
 
     <Button
         android:id="@+id/endgame_button_main_menu"
-        android:layout_width="368dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_kawaii_buttons2"
         android:text="@string/hostend_endgame"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/endgame_button_continue" />
 
