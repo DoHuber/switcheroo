@@ -12,6 +12,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Wolfer on 21/04/2018.
@@ -19,14 +22,27 @@ import java.io.ByteArrayOutputStream;
 
 public class DrawView extends View {
 
+    public static final int BLACK =1;
+    public static final int RED =2;
+    public static final int YELLOW =3;
+    public static final int GREEN =4;
+    public static final int BLUE =5;
+
+
+
     private final Paint myPaint;
-    private final Path myPath;
+    private Path myPath;
     private float pointX, pointY;
     private static final float TOLERANCE = 5;
 
+    private ArrayList<Path> paths = new ArrayList<>();
+    private ArrayList<Path> undonePaths = new ArrayList<>();
+    public static int selectedColor=Color.BLACK;
+    private Map<Path, Integer> colorsMap = new HashMap<>();
+
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        selectedColor = Color.BLACK;
         myPath = new Path();
         myPaint = new Paint();
         myPaint.setAntiAlias(true);
@@ -41,11 +57,17 @@ public class DrawView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        for (Path p : paths) {
+            myPaint.setColor(colorsMap.get(p));
+            canvas.drawPath(p, myPaint);
+        }
+        myPaint.setColor(selectedColor);
         canvas.drawPath(myPath, myPaint);
 
     }
 
     private void onStartTouch(float x, float y) {
+        myPath.reset();
         myPath.moveTo(x, y);
         pointX = x;
         pointY = y;
@@ -62,13 +84,19 @@ public class DrawView extends View {
     }
 
     public void clearCanvas() {
-        myPath.reset();
+        if (myPath != null) {
+            paths.clear();
+        }
         invalidate();
     }
 
     private void upTouch() {
         myPath.lineTo(pointX, pointY);
-    }
+        paths.add(myPath);
+        colorsMap.put(myPath, selectedColor);
+        myPath = new Path();
+        myPath.reset();
+        invalidate();    }
 
     public byte[] getByteArray() {
 
@@ -76,6 +104,40 @@ public class DrawView extends View {
         getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
 
         return outputStream.toByteArray();
+    }
+
+    public void onClickUndo() {
+        if (paths.size() > 0) {
+            undonePaths.add(paths.remove(paths.size() - 1));
+            invalidate();
+        } else {
+
+        }
+
+    }
+
+    public void setColor(int color){
+
+        switch (color){
+            case BLACK:
+                selectedColor =Color.BLACK;
+
+                break;
+            case RED:
+                selectedColor =Color.RED;
+                break;
+            case YELLOW:
+                selectedColor =Color.YELLOW;
+                break;
+
+            case GREEN:
+                selectedColor =Color.GREEN;
+                break;
+            case BLUE:
+                selectedColor =Color.BLUE;
+                break;
+        }
+
     }
 
     private Bitmap getBitmap() {

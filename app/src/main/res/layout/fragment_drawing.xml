@@ -1,5 +1,6 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="fill_parent"
     android:layout_height="match_parent">
@@ -24,7 +25,7 @@
         android:layout_below="@+id/drawing_text_hint"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toTopOf="@+id/drawing_send_button"
-        app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
+        app:layout_constraintTop_toBottomOf="@+id/redButton" />
 
     <Button
         android:background="@drawable/rounded_buttons_canvas2"
@@ -51,5 +52,56 @@
         android:text="@string/clear"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/redButton"
+        android:layout_width="71dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:text="Red"
+        app:layout_constraintEnd_toStartOf="@+id/yellowButton"
+        app:layout_constraintStart_toEndOf="@+id/blackButton"
+        app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
+
+    <Button
+        android:id="@+id/yellowButton"
+        android:layout_width="71dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="3dp"
+        android:text="Yellow"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/greenButton"
+        app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
+
+    <Button
+        android:id="@+id/greenButton"
+        android:layout_width="71dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="3dp"
+        android:text="Green"
+        app:layout_constraintEnd_toStartOf="@+id/blueButton"
+        app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
+
+    <Button
+        android:id="@+id/blueButton"
+        android:layout_width="71dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="3dp"
+        android:text="Blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
+
+    <Button
+        android:id="@+id/blackButton"
+        android:layout_width="71dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="3dp"
+        android:text="Black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
 
 </android.support.constraint.ConstraintLayout>

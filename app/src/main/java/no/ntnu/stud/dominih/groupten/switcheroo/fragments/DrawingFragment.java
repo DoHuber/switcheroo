@@ -69,6 +69,16 @@ public class DrawingFragment extends Fragment implements View.OnClickListener {
         sendButton.setOnClickListener(this);
         Button clearButton = view.findViewById(R.id.drawing_clear_button);
         clearButton.setOnClickListener(this);
+        Button blackButton = view.findViewById(R.id.blackButton);
+        blackButton.setOnClickListener(this);
+        Button redButton = view.findViewById(R.id.redButton);
+        redButton.setOnClickListener(this);
+        Button yellowButton = view.findViewById(R.id.yellowButton);
+        yellowButton.setOnClickListener(this);
+        Button greenButton = view.findViewById(R.id.greenButton);
+        greenButton.setOnClickListener(this);
+        Button blueButton = view.findViewById(R.id.blueButton);
+        blueButton.setOnClickListener(this);
     }
 
     public void onClick(View v) {
@@ -83,6 +93,24 @@ public class DrawingFragment extends Fragment implements View.OnClickListener {
                 String imgString = Base64.encodeToString(drawView.getByteArray(), Base64.DEFAULT);
                 parent.finishedDrawing(imgString);
 
+                break;
+
+            case R.id.blackButton:
+                drawView.setColor(DrawView.BLACK);
+                break;
+            case R.id.redButton:
+                drawView.setColor(DrawView.RED);
+                break;
+
+            case R.id.yellowButton:
+                drawView.setColor(DrawView.YELLOW);
+                break;
+            case R.id.greenButton:
+                drawView.setColor(DrawView.GREEN);
+                break;
+
+            case R.id.blueButton:
+                drawView.setColor(DrawView.BLUE);
                 break;
 
         }
