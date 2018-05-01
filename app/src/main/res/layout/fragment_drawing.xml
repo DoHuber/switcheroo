@@ -17,6 +17,80 @@
         app:layout_constraintStart_toEndOf="@+id/drawing_draw_view"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
+    <LinearLayout
+        android:id="@+id/layoutButton"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/drawing_text_hint">
+
+
+
+        <Button
+            android:id="@+id/redButton"
+            android:layout_width="65dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="3dp"
+            android:text="Red"
+            android:background="@drawable/rounded_kawaii_buttons_red"
+            app:layout_constraintEnd_toStartOf="@+id/yellowButton"
+            app:layout_constraintStart_toEndOf="@+id/blackButton"
+            app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
+
+        <Button
+            android:id="@+id/yellowButton"
+            android:layout_width="65dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="3dp"
+            android:text="Yellow"
+            android:background="@drawable/rounded_kawaii_buttons_yellow"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/greenButton"
+            app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
+
+        <Button
+            android:id="@+id/greenButton"
+            android:layout_width="65dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/rounded_kawaii_buttons_green"
+            android:text="Green"
+            app:layout_constraintEnd_toStartOf="@+id/blueButton"
+            app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
+
+        <Button
+            android:id="@+id/blueButton"
+            android:layout_width="65dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="3dp"
+            android:text="Blue"
+            android:textColor="#00FFFF"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/rounded_kawaii_buttons_bue"
+            app:layout_constraintEnd_toEndOf="@id/greenButton"
+            app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
+
+        <Button
+            android:id="@+id/blackButton"
+            android:layout_width="65dp"
+            android:background="@drawable/rounded_kawaii_buttons_black"
+            android:layout_height="35dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="10dp"
+            android:text="Black"
+            android:textColor="#fff"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
+
+
+    </LinearLayout>
+
     <no.ntnu.stud.dominih.groupten.switcheroo.DrawView
         android:id="@+id/drawing_draw_view"
         android:layout_width="wrap_content"
@@ -24,8 +98,9 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/drawing_text_hint"
         android:background="@android:color/transparent"
+
         app:layout_constraintBottom_toTopOf="@+id/drawing_send_button"
-        app:layout_constraintTop_toBottomOf="@+id/redButton" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutButton" />
 
     <Button
         android:background="@drawable/rounded_buttons_canvas2"
@@ -53,55 +128,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/redButton"
-        android:layout_width="71dp"
-        android:layout_height="41dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        android:text="Red"
-        app:layout_constraintEnd_toStartOf="@+id/yellowButton"
-        app:layout_constraintStart_toEndOf="@+id/blackButton"
-        app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
 
-    <Button
-        android:id="@+id/yellowButton"
-        android:layout_width="71dp"
-        android:layout_height="41dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="3dp"
-        android:text="Yellow"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/greenButton"
-        app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
-
-    <Button
-        android:id="@+id/greenButton"
-        android:layout_width="71dp"
-        android:layout_height="41dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="3dp"
-        android:text="Green"
-        app:layout_constraintEnd_toStartOf="@+id/blueButton"
-        app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
-
-    <Button
-        android:id="@+id/blueButton"
-        android:layout_width="71dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="3dp"
-        android:text="Blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
-
-    <Button
-        android:id="@+id/blackButton"
-        android:layout_width="71dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="3dp"
-        android:text="Black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
 
 </android.support.constraint.ConstraintLayout>
