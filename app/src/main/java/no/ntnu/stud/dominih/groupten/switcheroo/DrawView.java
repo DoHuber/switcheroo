@@ -110,10 +110,7 @@ public class DrawView extends View {
         if (paths.size() > 0) {
             undonePaths.add(paths.remove(paths.size() - 1));
             invalidate();
-        } else {
-
         }
-
     }
 
     public void setColor(int color){
@@ -164,6 +161,14 @@ public class DrawView extends View {
 
     @Override
     public boolean performClick() {
+
+        myPath.lineTo(pointX, pointY);
+        //myPath.addCircle(pointX,pointY,1,);
+        paths.add(myPath);
+        colorsMap.put(myPath, selectedColor);
+        myPath = new Path();
+        myPath.reset();
+        invalidate();
         return super.performClick();
     }
 
