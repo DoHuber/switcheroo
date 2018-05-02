@@ -8,25 +8,23 @@
     <TextView
         android:id="@+id/drawing_text_hint"
         android:layout_width="368dp"
-        android:layout_height="wrap_content"
+        android:layout_height="38dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="@string/textview"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toStartOf="@+id/drawing_draw_view"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/drawing_draw_view"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-
     <LinearLayout
         android:id="@+id/layoutButton"
         android:layout_width="match_parent"
-        android:layout_marginTop="5dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/drawing_text_hint">
-
-
 
         <Button
             android:id="@+id/redButton"
@@ -35,7 +33,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="3dp"
-            android:text="Red"
+            android:text="@string/red"
             android:background="@drawable/rounded_kawaii_buttons_red"
             app:layout_constraintEnd_toStartOf="@+id/yellowButton"
             app:layout_constraintStart_toEndOf="@+id/blackButton"
@@ -47,7 +45,7 @@
             android:layout_height="35dp"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="3dp"
-            android:text="Yellow"
+            android:text="@string/yellow"
             android:background="@drawable/rounded_kawaii_buttons_yellow"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/greenButton"
@@ -60,7 +58,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginTop="3dp"
             android:background="@drawable/rounded_kawaii_buttons_green"
-            android:text="Green"
+            android:text="@string/green"
             app:layout_constraintEnd_toStartOf="@+id/blueButton"
             app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
 
@@ -69,7 +67,7 @@
             android:layout_width="65dp"
             android:layout_height="35dp"
             android:layout_marginTop="3dp"
-            android:text="Blue"
+            android:text="@string/blue"
             android:textColor="#00FFFF"
             android:layout_marginEnd="5dp"
             android:background="@drawable/rounded_kawaii_buttons_bue"
@@ -79,11 +77,11 @@
         <Button
             android:id="@+id/blackButton"
             android:layout_width="65dp"
-            android:background="@drawable/rounded_kawaii_buttons_black"
             android:layout_height="35dp"
-            android:layout_marginTop="3dp"
             android:layout_marginEnd="10dp"
-            android:text="Black"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/rounded_kawaii_buttons_black"
+            android:text="@string/black"
             android:textColor="#fff"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/drawing_text_hint" />
@@ -103,14 +101,14 @@
         app:layout_constraintTop_toBottomOf="@+id/layoutButton" />
 
     <Button
-        android:background="@drawable/rounded_buttons_canvas2"
         android:id="@+id/drawing_send_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="264dp"
         android:layout_toEndOf="@+id/drawing_clear_button"
+        android:background="@drawable/rounded_buttons_canvas2"
         android:text="@string/send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -120,14 +118,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/rounded_buttons_canvas"
         android:layout_alignParentStart="true"
-        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="264dp"
+        android:background="@drawable/rounded_buttons_canvas"
         android:text="@string/clear"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/drawing_undo_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/rounded_kawaii_buttons2"
+        android:text="@string/undo"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/drawing_send_button"
+        app:layout_constraintStart_toEndOf="@+id/drawing_clear_button" />
 
 
 </android.support.constraint.ConstraintLayout>

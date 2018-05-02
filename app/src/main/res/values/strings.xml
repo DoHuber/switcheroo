@@ -30,4 +30,10 @@
     <string name="main_menu">Main Menu</string>
     <string name="main_menu_body">Welcome to Switcheroo! To join an existing game, select the Joinbutton. To host a new game, click the Hostbutton.</string>
     <string name="qrscan_headline">Scan the hosts QR code.</string>
+    <string name="red">Red</string>
+    <string name="yellow">Yellow</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
+    <string name="black">Black</string>
+    <string name="undo">UNDO</string>
 </resources>

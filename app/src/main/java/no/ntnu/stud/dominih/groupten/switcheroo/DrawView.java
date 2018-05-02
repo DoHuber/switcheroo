@@ -164,7 +164,6 @@ public class DrawView extends View {
 
     @Override
     public boolean performClick() {
-        Log.d("DrawView", "performClick() was called.");
         return super.performClick();
     }
 
@@ -186,7 +185,7 @@ public class DrawView extends View {
                 upTouch();
                 invalidate();
                 break;
-                default:
+            default:
                     performClick();
         }
         return true;
