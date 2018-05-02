@@ -1,17 +1,19 @@
 package no.ntnu.stud.dominih.groupten.switcheroo;
 
 import android.Manifest;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.MainMenuFragment;
 
@@ -21,53 +23,59 @@ public class MainActivity extends AppCompatActivity {
     public static boolean areCameraPermissionsGranted = false;
     public static String userId = "";
 
-    private static final String KEY_PREFERENCES = "no.ntnu.stud.dominih.groupten.switcheroo.preferencekey";
-    private static final String KEY_USERNAME = "no.ntnu.stud.dominih.groupten.switcheroo.preferencekey.username";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
-    private String getUsername() {
-
-        SharedPreferences preferences = getSharedPreferences(KEY_PREFERENCES, MODE_PRIVATE);
-        return preferences.getString(KEY_USERNAME, "");
-
-    }
-
-    private void setUsername(String username) {
-
-        MainActivity.userId = username;
-
-        SharedPreferences preferences = getSharedPreferences(KEY_PREFERENCES, MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(KEY_USERNAME, username)
-                .apply();
-
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
 
-        performStartupChecks();
+        ensureUserAuthentication();
 
     }
 
-    private void performStartupChecks() {
+    private void ensureUserAuthentication() {
 
-        if (getUsername().equals("")) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser candidateUser = auth.getCurrentUser();
 
-            askForUsername();
+        if (candidateUser != null) {
+
+            setUsername(candidateUser);
+            checkCameraPermissions();
 
         } else {
 
-            userId = getUsername();
-            checkCameraPermissions();
+            auth.signInAnonymously()
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            if (task.isSuccessful()) {
+
+                                setUsername(task.getResult().getUser());
+                                checkCameraPermissions();
+
+                            } else {
+
+                                Toast.makeText(MainActivity.this, "Fatal error: Authentication failure. Please try again.", Toast.LENGTH_LONG).show();
+                                MainActivity.this.finish();
+
+                            }
+
+                        }
+                    });
 
         }
+
+    }
+
+    private void setUsername(FirebaseUser user) {
+
+        MainActivity.userId = user.getUid();
 
     }
 
@@ -87,39 +95,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void askForUsername() {
-
-        final EditText usernameField = new EditText(this);
-        usernameField.setHint("New username");
-
-        AlertDialog.Builder bob = new AlertDialog.Builder(this);
-        bob.setTitle("No username found")
-                .setView(usernameField)
-                .setPositiveButton("OK", null);
-
-        final AlertDialog dialog = bob.show();
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                String text = usernameField.getText().toString();
-                if (text.length() > 15 || text.contains("host") || text.contains("broadcast")) {
-
-                    usernameField.setError("Too long or forbidden name");
-
-                } else {
-
-                    setUsername(text);
-                    dialog.dismiss();
-                    checkCameraPermissions();
-
-                }
-
-            }
-        });
-
-    }
 
     private void showMainMenuFragment() {
         MainMenuFragment menuFragment = new MainMenuFragment();
