@@ -79,6 +79,8 @@ public class DrawingFragment extends Fragment implements View.OnClickListener {
         greenButton.setOnClickListener(this);
         Button blueButton = view.findViewById(R.id.blueButton);
         blueButton.setOnClickListener(this);
+        Button undoButon = view.findViewById(R.id.drawing_undo_button);
+        undoButon.setOnClickListener(this);
     }
 
     public void onClick(View v) {
@@ -112,7 +114,9 @@ public class DrawingFragment extends Fragment implements View.OnClickListener {
             case R.id.blueButton:
                 drawView.setColor(DrawView.BLUE);
                 break;
-
+            case R.id.drawing_undo_button:
+                drawView.onClickUndo();
+                break;
         }
 
 

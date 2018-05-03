@@ -71,6 +71,9 @@ public class DrawView extends View {
         myPath.moveTo(x, y);
         pointX = x;
         pointY = y;
+        myPath.addCircle(pointX,pointY,1, Path.Direction.CW);
+
+        invalidate();
     }
 
     private void moveTouch(float x, float y) {
@@ -110,10 +113,7 @@ public class DrawView extends View {
         if (paths.size() > 0) {
             undonePaths.add(paths.remove(paths.size() - 1));
             invalidate();
-        } else {
-
         }
-
     }
 
     public void setColor(int color){
@@ -164,7 +164,16 @@ public class DrawView extends View {
 
     @Override
     public boolean performClick() {
-        Log.d("DrawView", "performClick() was called.");
+
+        //myPath.lineTo(pointX, pointY);
+        /*
+        myPath.addCircle(pointX,pointY,5, Path.Direction.CW);
+        paths.add(myPath);
+        colorsMap.put(myPath, selectedColor);
+        myPath = new Path();
+        myPath.reset();
+        invalidate();
+        */
         return super.performClick();
     }
 
@@ -186,7 +195,7 @@ public class DrawView extends View {
                 upTouch();
                 invalidate();
                 break;
-                default:
+            default:
                     performClick();
         }
         return true;
