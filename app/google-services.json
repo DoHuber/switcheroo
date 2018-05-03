@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "989008404829",
+    "firebase_url": "https://switcheroo-projekt.firebaseio.com",
+    "project_id": "switcheroo-projekt",
+    "storage_bucket": "switcheroo-projekt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989008404829:android:9612b54abdfb56d1",
+        "android_client_info": {
+          "package_name": "no.ntnu.stud.dominih.groupten.switcheroo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989008404829-3gaf5dlt86u098rdmf8n1c9ef69c807b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "no.ntnu.stud.dominih.groupten.switcheroo",
+            "certificate_hash": "ca90d4f6e2c74521329d5b7bdf86a900073d5843"
+          }
+        },
+        {
+          "client_id": "989008404829-3k952gn1d02vbdbe045jrv1s7na5sj4m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPZ67QpjcLyGgjLp7cQvWVwiEKUhsqM_M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989008404829-3k952gn1d02vbdbe045jrv1s7na5sj4m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
