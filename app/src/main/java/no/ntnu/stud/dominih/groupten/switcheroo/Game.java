@@ -19,4 +19,7 @@ class Game {
 
     }
 
+    public String getGameid() {
+        return gameid;
+    }
 }
