@@ -1,0 +1,16 @@
+This is Switcheroo, a modern take on the classic phrase drawing game. Simply clone & build the source code and 
+distribute among as many devices as you want. Then just have one device hosting the game, the others can join
+conveniently via QR code. 
+
+Players then take turns in drawing and describing pictures; in the end everyone can download and/or share
+a compilation of the full game.
+
+There are no special setup procedures, simply building the APK should be enough to play Switcheroo
+with friends and the like. The code is organized as a standard Android project.
+
+The authors (group 10) of this project are:
+- Dafina Marku
+- Jesus Herrera
+- Sergio Gimeno
+- Dominik Huber
+
