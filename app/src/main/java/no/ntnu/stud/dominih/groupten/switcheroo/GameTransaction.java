@@ -1,6 +1,15 @@
 package no.ntnu.stud.dominih.groupten.switcheroo;
 
+// Model class, this is why "cosmetic" warnings are supressed
 @SuppressWarnings("WeakerAccess")
+
+/**
+ * Please refer to the report for a detailed description of the protocol and the meaning of the
+ * TYPE constants.
+ *
+ * @see Game
+ * @author Dominik Huber
+ */
 public class GameTransaction {
 
     public static final String TYPE_TEXT = "no.ntnu.stud.dominih.groupten.switcheroo.transactions.text";

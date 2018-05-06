@@ -25,6 +25,12 @@ public class GameHostService {
         this.gameId = gameId;
     }
 
+    /**
+     * Initiates a new game and returns the new game's ID
+     *
+     *
+     * @return The id of the new game
+     */
     public String startNewGame() {
 
         databaseMaintenance();
@@ -37,6 +43,52 @@ public class GameHostService {
 
     }
 
+    /**
+     * Returns all registered player to a given AsyncCallback
+     *
+     * @param callback the callback to notify with results
+     */
+    public void getRegisteredPlayers(final AsyncCallback<String> callback) {
+
+        DatabaseReference gameReference = FirebaseDatabase.getInstance().getReference("switcheroo").child(gameId);
+        DatabaseReference playersReference = gameReference.child("players");
+        playersReference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                List<String> result = new ArrayList<>();
+
+                for (DataSnapshot element : dataSnapshot.getChildren()) {
+
+                    if (element.getValue() != null) {
+
+                        String singlePlayerId = element.getValue().toString();
+                        result.add(singlePlayerId);
+
+                    }
+
+                }
+
+                callback.onSuccess(result);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onFailure(databaseError.toException());
+            }
+
+        });
+
+    }
+
+    /**
+     * Will clean up the database, throwing out all games that are older than 24 hours, but
+     * only if the last maintenance happened longer than 24 hours ago. Will be called with every
+     * new game, but should not happen very often.
+     *
+     */
     public void databaseMaintenance() {
 
         final DatabaseReference lastCleanedMillis = FirebaseDatabase.getInstance().getReference("last-cleaned");
@@ -120,41 +172,6 @@ public class GameHostService {
             }
         });
 
-
-    }
-
-    public void getRegisteredPlayers(final AsyncCallback<String> callback) {
-
-        DatabaseReference gameReference = FirebaseDatabase.getInstance().getReference("switcheroo").child(gameId);
-        DatabaseReference playersReference = gameReference.child("players");
-        playersReference.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                List<String> result = new ArrayList<>();
-
-                for (DataSnapshot element : dataSnapshot.getChildren()) {
-
-                    if (element.getValue() != null) {
-
-                        String boi = element.getValue().toString();
-                        result.add(boi);
-
-                    }
-
-                }
-
-                callback.onSuccess(result);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                callback.onFailure(databaseError.toException());
-            }
-
-        });
 
     }
 

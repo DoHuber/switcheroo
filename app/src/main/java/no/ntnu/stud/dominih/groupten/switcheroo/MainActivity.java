@@ -17,11 +17,24 @@ import com.google.firebase.auth.FirebaseUser;
 
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.MainMenuFragment;
 
+/**
+ * MainActivity of this application. This app is structured as follows: both the MainActivity and
+ * the GameActivity only contain a container layout for Fragments. Depending on what the app wants
+ * to do at a given point, different fragments are put in the container. This greatly helped
+ * in modularizing the app both logically and during the development process.
+ *
+ * The MainActivity handles all tasks that are related to hosting or joining a game, up until
+ * the game actually starts, at which point the GameActivity takes over.
+ *
+ * @author Dominik Huber
+ * @see GameActivity
+ *
+ */
 public class MainActivity extends AppCompatActivity {
 
-    private static final int CAMERA_PERMISSION_REQUEST_CODE = 7734;
-    public static boolean areCameraPermissionsGranted = false;
-    public static String userId = "";
+    private static final int    CAMERA_PERMISSION_REQUEST_CODE = 7734;
+    public static boolean       areCameraPermissionsGranted = false;
+    public static String        userId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,28 +62,41 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
 
-            auth.signInAnonymously()
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                            if (task.isSuccessful()) {
-
-                                setUsername(task.getResult().getUser());
-                                checkCameraPermissions();
-
-                            } else {
-
-                                Toast.makeText(MainActivity.this, "Fatal error: Authentication failure. Please try again.", Toast.LENGTH_LONG).show();
-                                MainActivity.this.finish();
-
-                            }
-
-                        }
-                    });
+            signInAnonymously(auth);
 
         }
 
+    }
+
+    /**
+     * Tries to sign in the user anonymously, ensuring that users so signed in can access the
+     * database and by extension, the application.
+     *
+     * Source: this code is heavily based on:
+     * https://firebase.google.com/docs/auth/android/anonymous-auth
+     *
+     * @param auth an instance of FirebaseAuth
+     */
+    private void signInAnonymously(FirebaseAuth auth) {
+        auth.signInAnonymously()
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if (task.isSuccessful()) {
+
+                            setUsername(task.getResult().getUser());
+                            checkCameraPermissions();
+
+                        } else {
+
+                            Toast.makeText(MainActivity.this, "Fatal error: Authentication failure. Please try again.", Toast.LENGTH_LONG).show();
+                            MainActivity.this.finish();
+
+                        }
+
+                    }
+                });
     }
 
     private void setUsername(FirebaseUser user) {
@@ -80,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkCameraPermissions() {
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -93,8 +120,8 @@ public class MainActivity extends AppCompatActivity {
             showMainMenuFragment();
 
         }
-    }
 
+    }
 
     private void showMainMenuFragment() {
         MainMenuFragment menuFragment = new MainMenuFragment();
@@ -107,6 +134,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
+
+            // If the result is for camera permissions
+            // and there are one or more results
+            // and the first result is positive
+            // set the appropriate flag to true,
+            // this will later make the app use the camera or text fallback Fragment
 
             areCameraPermissionsGranted = requestCode == CAMERA_PERMISSION_REQUEST_CODE
                     && grantResults.length > 0

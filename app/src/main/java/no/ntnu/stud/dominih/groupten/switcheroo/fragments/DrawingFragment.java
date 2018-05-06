@@ -92,7 +92,7 @@ public class DrawingFragment extends Fragment implements View.OnClickListener {
 
             case R.id.drawing_send_button:
 
-                String imgString = Base64.encodeToString(drawView.getByteArray(), Base64.DEFAULT);
+                String imgString = Base64.encodeToString(drawView.getBitmapBytes(), Base64.DEFAULT);
                 parent.finishedDrawing(imgString);
 
                 break;

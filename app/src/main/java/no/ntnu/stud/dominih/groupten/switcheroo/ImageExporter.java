@@ -14,6 +14,13 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Enables exporting a list of GameTransactions to a single Bitmap to send to the other
+ * players and to share via Social Media.
+ *
+ *
+ * @author Dominik Huber
+ */
 public class ImageExporter {
 
     public Bitmap exportToBitmap(List<GameTransaction> transactions) {
@@ -25,7 +32,7 @@ public class ImageExporter {
             if (element.type.equals(GameTransaction.TYPE_TEXT)) {
 
                 Log.d("ImageExport", "Processing text payload: " + element.payload);
-                bitmaps.add(textToBitmap(element.payload, Color.GREEN));
+                bitmaps.add(textToBitmap(element.payload));
 
             } else if (element.type.equals(GameTransaction.TYPE_IMG)) {
 
@@ -40,7 +47,7 @@ public class ImageExporter {
     }
 
     // Slightly modified from: https://stackoverflow.com/questions/8799290/convert-string-text-to-bitmap?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-    private Bitmap textToBitmap(String text, int textColor) {
+    private Bitmap textToBitmap(String text) {
 
         Bitmap bitmap = Bitmap.createBitmap(600, 200, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);

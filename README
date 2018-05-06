@@ -14,3 +14,18 @@ The authors (group 10) of this project are:
 - Sergio Gimeno
 - Dominik Huber
 
+Ignored warnings:
+Some Linter warnings are ignored on purpose. In most cases, this will be documented directly in
+the code with regular line (//) comments. Some could not be explained via comments and will be
+elaborated upon here:
+
+- FrameLayout can be replaced with merge tag: This happens in both activites, this is in fact a
+false statement, as doing that would lead to the Fragment functionality powering this app breaking
+down, as the merge tag cannot have an ID.
+
+- Buttons should be borderless: The team's designer decided that this looks better, so this
+warning is just ignored.
+
+- Found bitmap drawable.. : Ignored, because the file does indeed not scale, but is used in a
+fixed-size context, so different sizes are not needed.
+

@@ -18,24 +18,45 @@ import no.ntnu.stud.dominih.groupten.switcheroo.fragments.HostEndFragment;
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.WaitingFragment;
 import no.ntnu.stud.dominih.groupten.switcheroo.fragments.WritingFragment;
 
+/**
+ * Second Activity of the application. This handles the actual game, going from the host starting
+ * the game to the host ending the game, or the player ending it manually, whatever comes earlier.
+ *
+ * This Activity contains both the host and client logic, in order to enable users to be both
+ * host and client at the same time. The game is controlled primarily by GameTranscation objects,
+ * sent via Firebase. The host always has first turn and will draw. The GameTransactions follow
+ * an asynchronous, stateless protocol, exact documentation can be found in the report.
+ *
+ * The Activity will switch around the correct fragments depending on what it is doing at the
+ * moment.
+ *
+ * @see MainActivity
+ * @see Game
+ * @see GameTransaction
+ *
+ * @author Dominik Huber
+ *
+ */
 public class GameActivity extends AppCompatActivity {
 
+    // Constants
     public static final String KEY_PLAYER_TYPE = "Another key sadad";
     public static final String KEY_GAME_ID = "Omann Lemon ooer";
     public static final String PLAYER_TYPE_CLIENT = "Client";
     public static final String PLAYER_TYPE_HOST = "Host";
 
+    // A fragment that just displays a loading bar / the circle indicator.
     private final WaitingFragment waitingFragment = new WaitingFragment();
 
     private GameClientService gameClientService;
-    private List<String> players = new ArrayList<>();
+    private final List<String> players = new ArrayList<>();
 
     private String ownRole;
     private String cachedPayload;
     private String cacheType;
     private String cachedSenderId;
 
-    private List<GameTransaction> transactionCache = new ArrayList<>();
+    private final List<GameTransaction> transactionCache = new ArrayList<>();
     private boolean gameEnding = false;
 
     @Override
@@ -43,59 +64,83 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Keep the screen on as game status is lost if the Activity stops - see future work for that
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         Bundle arguments = getIntent().getExtras();
         if (arguments != null) {
 
-            String role = arguments.getString(GameActivity.KEY_PLAYER_TYPE);
-            ownRole = role;
-            String gameId = arguments.getString(GameActivity.KEY_GAME_ID);
-
-            if (GameActivity.PLAYER_TYPE_CLIENT.equals(role)) {
-
-                gameClientService = new GameClientService(gameId);
-                gameClientService.subscribeForTransactions(new GameTransactionCallback());
-
-                replaceFragmentWith(waitingFragment);
-
-            } else {
-
-                GameHostService gameHostService = new GameHostService(gameId);
-                gameClientService = new GameClientService(gameId);
-
-                gameClientService.subscribeForTransactions(new GameTransactionCallback());
-
-                gameHostService.getRegisteredPlayers(new AsyncCallback<String>() {
-
-                    @Override
-                    public void onSuccess(List<String> result) {
-                        onPlayerListReceived(result);
-                    }
-
-                    @Override
-                    public void onFailure(Exception cause) {
-                        Log.e("GameActivity", "Could not get players because of: " + cause.getLocalizedMessage());
-                    }
-
-                });
-
-            }
+            processArguments(arguments);
 
         }
 
 
     }
 
-    private void replaceFragmentWith(Fragment f) {
+    private void processArguments(Bundle arguments) {
+
+        String role = arguments.getString(GameActivity.KEY_PLAYER_TYPE);
+        ownRole = role;
+        String gameId = arguments.getString(GameActivity.KEY_GAME_ID);
+
+        if (GameActivity.PLAYER_TYPE_CLIENT.equals(role)) {
+
+            subscribeAndWait(gameId);
+
+        } else {
+
+            getPlayerList(gameId);
+
+        }
+    }
+
+    private void subscribeAndWait(String gameId) {
+
+        gameClientService = new GameClientService(gameId);
+        gameClientService.subscribeForTransactions(new GameTransactionCallback());
+
+        replaceFragmentWith(waitingFragment);
+
+    }
+
+    private void getPlayerList(String gameId) {
+
+        GameHostService gameHostService = new GameHostService(gameId);
+        gameClientService = new GameClientService(gameId);
+
+        gameClientService.subscribeForTransactions(new GameTransactionCallback());
+        gameHostService.getRegisteredPlayers(new AsyncCallback<String>() {
+
+            @Override
+            public void onSuccess(List<String> result) {
+                onPlayerListReceived(result);
+            }
+
+            @Override
+            public void onFailure(Exception cause) {
+                Log.e("GameActivity", "Could not get players because of: " + cause.getLocalizedMessage());
+            }
+
+        });
+
+    }
+
+    private void replaceFragmentWith(Fragment fragment) {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_fragment_container, f)
+                .replace(R.id.main_fragment_container, fragment)
                 .commit();
 
     }
 
+    /**
+     * As soon as the player list has been received from the Firebase database, the host will
+     * add himself and the other players to the local player list and then start the game by
+     * opening the DrawingFragment for himself.
+     *
+     * @param players A list of player unique usernames
+     */
     private void onPlayerListReceived(List<String> players) {
 
         this.players.add(MainActivity.userId);
@@ -103,6 +148,8 @@ public class GameActivity extends AppCompatActivity {
 
         DrawingFragment drawingFragment = new DrawingFragment();
         Bundle arguments = new Bundle();
+
+        // Since this is the first round, the Fragment does not get a caption to draw
         arguments.putBoolean(DrawingFragment.KEY_HAS_TEXT, false);
         drawingFragment.setArguments(arguments);
 
@@ -110,6 +157,13 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This is called by the DrawingFragment once the player has finished drawing. This will cause
+     * the client to send a GameTransaction indicating that they are done to the host, thereby
+     * requesting the username of the next player, to whom the image will be sent.
+     *
+     * @param imageBase64 An images bytes encoded in Base64
+     */
     public void finishedDrawing(String imageBase64) {
 
         replaceFragmentWith(waitingFragment);
@@ -122,6 +176,12 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Called by the WritingFragment once the player has finished describing the image. This will
+     * send a GameTransaction to the host asking for the next players username.
+     *
+     * @param text String with the image description
+     */
     public void finishedWriting(String text) {
 
         replaceFragmentWith(waitingFragment);
@@ -134,6 +194,12 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Once the next players id has been received from the host, the cached transaction is sent
+     * to the next player for continuing the game.
+     *
+     * @param nextPlayerId Unique username of player whose turn it is next
+     */
     private void onNextPlayerReceived(String nextPlayerId) {
 
         GameTransaction t = new GameTransaction(nextPlayerId, cacheType, cachedPayload, MainActivity.userId);
@@ -141,6 +207,12 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Master method for handling all GameTransactions, see the report for more detailed protocol
+     * documentation.
+     *
+     * @param transaction The received GameTransaction
+     */
     private void receivedTransaction(GameTransaction transaction) {
 
         Log.d("GameActivity", "Transcation received: " + transaction.toString());
@@ -149,22 +221,31 @@ public class GameActivity extends AppCompatActivity {
 
             if (transaction.type.equals(GameTransaction.TYPE_IMG) || transaction.type.equals(GameTransaction.TYPE_TEXT)) {
 
+                // First of all, the host logs any and all image or text transactions for creating
+                // the big image at the end of the game
                 transactionCache.add(transaction);
 
             }
 
         }
 
+        // ---------------------------------------------------------------------------------------//
+
         if (transaction.recipientId.equals(MainActivity.userId)) {
 
             // This is my transaction, do something funny, like opening the text
             String transactionType = transaction.type;
             switch (transactionType) {
-                case GameTransaction.TYPE_NEXT:
+
+                // Next player's turn, call the method
+                case GameTransaction.TYPE_NEXT: {
 
                     onNextPlayerReceived(transaction.payload);
 
                     break;
+                }
+
+                // Image transaction, open the WritingFragment for describing the image
                 case GameTransaction.TYPE_IMG: {
 
                     Bundle arguments = new Bundle();
@@ -175,9 +256,10 @@ public class GameActivity extends AppCompatActivity {
 
                     replaceFragmentWith(writingFragment);
 
-
                     break;
                 }
+
+                // Text transaction, open the DrawingFragment for drawing the text
                 case GameTransaction.TYPE_TEXT: {
 
                     Bundle arguments = new Bundle();
@@ -191,9 +273,14 @@ public class GameActivity extends AppCompatActivity {
 
                     break;
                 }
+
             }
 
-        } else if (transaction.recipientId.equals("broadcast") && transaction.type.equals(GameTransaction.TYPE_END)) {
+
+        }
+        // Brodacast transaction, type END. Game has ended, the payload is the full image, open
+        // the final fragment for displaying and sharing the image.
+        else if (transaction.recipientId.equals("broadcast") && transaction.type.equals(GameTransaction.TYPE_END)) {
 
             ClientEndFragment cef = new ClientEndFragment();
             Bundle arguments = new Bundle();
@@ -202,7 +289,9 @@ public class GameActivity extends AppCompatActivity {
 
             replaceFragmentWith(cef);
 
-        } else if (transaction.recipientId.equals("host") && ownRole.equals(PLAYER_TYPE_HOST)) {
+        }
+        // Transaction for the host, this user is the host. Handle various host duties.
+        else if (transaction.recipientId.equals("host") && ownRole.equals(PLAYER_TYPE_HOST)) {
 
             String senderId = transaction.senderId;
             int sendersPosition = players.indexOf(senderId);

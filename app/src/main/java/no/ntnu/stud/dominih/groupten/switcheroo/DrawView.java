@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -17,28 +16,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Wolfer on 21/04/2018.
- */
-
+ * One of the main components of the app, handles all drawing which is half the game.
+ *
+ * @author Jesus Herrera
+ **/
 public class DrawView extends View {
 
-    public static final int BLACK =1;
-    public static final int RED =2;
-    public static final int YELLOW =3;
-    public static final int GREEN =4;
-    public static final int BLUE =5;
-
-
+    // Constants
+    public static final int BLACK = 1;
+    public static final int RED = 2;
+    public static final int YELLOW = 3;
+    public static final int GREEN = 4;
+    public static final int BLUE = 5;
 
     private final Paint myPaint;
     private Path myPath;
     private float pointX, pointY;
     private static final float TOLERANCE = 5;
 
-    private ArrayList<Path> paths = new ArrayList<>();
-    private ArrayList<Path> undonePaths = new ArrayList<>();
-    public static int selectedColor=Color.BLACK;
-    private Map<Path, Integer> colorsMap = new HashMap<>();
+    private final ArrayList<Path> paths = new ArrayList<>();
+    private final ArrayList<Path> undonePaths = new ArrayList<>();
+    public static int selectedColor = Color.BLACK;
+    private final Map<Path, Integer> colorsMap = new HashMap<>();
 
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -57,6 +56,9 @@ public class DrawView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        // Draw all the paths in the correct
+        // colors, as listed in the array
+
         for (Path p : paths) {
             myPaint.setColor(colorsMap.get(p));
             canvas.drawPath(p, myPaint);
@@ -66,12 +68,14 @@ public class DrawView extends View {
 
     }
 
+    // ----- All logic handling click, touch, movement in order to draw paths in colors
+
     private void onStartTouch(float x, float y) {
         myPath.reset();
         myPath.moveTo(x, y);
         pointX = x;
         pointY = y;
-        myPath.addCircle(pointX,pointY,1, Path.Direction.CW);
+        myPath.addCircle(pointX, pointY, 1, Path.Direction.CW);
 
         invalidate();
     }
@@ -86,6 +90,19 @@ public class DrawView extends View {
         }
     }
 
+    private void upTouch() {
+        myPath.lineTo(pointX, pointY);
+        paths.add(myPath);
+        colorsMap.put(myPath, selectedColor);
+        myPath = new Path();
+        myPath.reset();
+        invalidate();
+    }
+
+    /**
+     * Clears the canvas, emptying the screen and deleting
+     * all previous user drawing.
+     */
     public void clearCanvas() {
         if (myPath != null) {
             paths.clear();
@@ -93,21 +110,6 @@ public class DrawView extends View {
         invalidate();
     }
 
-    private void upTouch() {
-        myPath.lineTo(pointX, pointY);
-        paths.add(myPath);
-        colorsMap.put(myPath, selectedColor);
-        myPath = new Path();
-        myPath.reset();
-        invalidate();    }
-
-    public byte[] getByteArray() {
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-
-        return outputStream.toByteArray();
-    }
 
     public void onClickUndo() {
         if (paths.size() > 0) {
@@ -116,64 +118,32 @@ public class DrawView extends View {
         }
     }
 
-    public void setColor(int color){
+    public void setColor(int color) {
 
-        switch (color){
+        switch (color) {
             case BLACK:
-                selectedColor =Color.BLACK;
+                selectedColor = Color.BLACK;
 
                 break;
             case RED:
-                selectedColor =Color.RED;
+                selectedColor = Color.RED;
                 break;
             case YELLOW:
-                selectedColor =Color.YELLOW;
+                selectedColor = Color.YELLOW;
                 break;
 
             case GREEN:
-                selectedColor =Color.GREEN;
+                selectedColor = Color.GREEN;
                 break;
             case BLUE:
-                selectedColor =Color.BLUE;
+                selectedColor = Color.BLUE;
                 break;
         }
 
     }
 
-    private Bitmap getBitmap() {
-
-        int width = this.getWidth();
-        int height = this.getHeight();
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        Paint white = new Paint();
-        white.setColor(Color.WHITE);
-
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawRect(0f, 0f, (float) width, (float) height, white);
-        this.draw(canvas);
-
-        canvas.drawRect(0f, 0f, (float) width, 5f, paint);
-        canvas.drawRect(0f, (float) (height - 5), (float) width, (float) height, paint);
-        canvas.drawRect(0f, 0f, 5f, (float) height, paint);
-        canvas.drawRect((float) (width - 5), 0f, (float) width, (float) height, paint);
-
-        return bitmap;
-    }
-
     @Override
     public boolean performClick() {
-
-        //myPath.lineTo(pointX, pointY);
-        /*
-        myPath.addCircle(pointX,pointY,5, Path.Direction.CW);
-        paths.add(myPath);
-        colorsMap.put(myPath, selectedColor);
-        myPath = new Path();
-        myPath.reset();
-        invalidate();
-        */
         return super.performClick();
     }
 
@@ -196,8 +166,53 @@ public class DrawView extends View {
                 invalidate();
                 break;
             default:
-                    performClick();
+                performClick();
         }
         return true;
     }
+
+    //------------- Exporting the DrawView as a Bitmap or array of bytes of the Bitmap
+
+    /**
+     * Returns a Bitmap representation of the DrawView, also draws a small red border
+     * around the DrawViews contents.
+     *
+     * @return Bitmap representation of the DrawView
+     */
+    private Bitmap asBitmap() {
+
+        int width = this.getWidth();
+        int height = this.getHeight();
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        Paint white = new Paint();
+        white.setColor(Color.WHITE);
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawRect(0f, 0f, (float) width, (float) height, white);
+        this.draw(canvas);
+
+        canvas.drawRect(0f, 0f, (float) width, 5f, paint);
+        canvas.drawRect(0f, (float) (height - 5), (float) width, (float) height, paint);
+        canvas.drawRect(0f, 0f, 5f, (float) height, paint);
+        canvas.drawRect((float) (width - 5), 0f, (float) width, (float) height, paint);
+
+        return bitmap;
+    }
+
+    /**
+     * Returns a Bitmap representation of the DrawView as a byte array
+     * The Bitmap is compressed with PNG, quality 100.
+     *
+     * @return byte[] Bytes of a Bitmap representing the current state of the DrawView
+     */
+    public byte[] getBitmapBytes() {
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        this.asBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+
+        return outputStream.toByteArray();
+    }
+
 }
